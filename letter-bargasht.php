@@ -25,14 +25,21 @@ if($_GET['action'] == "bargasht")
 		$dota=mysql_fetch_array($b);
 		$str = "INSERT INTO letters (id,senderID,recieverID,sentDate,recievedDate,subject,context,private,priority,actionType,attachment)
 				VALUES('".generate()."','".$_SESSION['username']."','"
-				.$dota['senderID']."','".date("Y-m-d H:i:s")."',NULL, 'برگشت', 'نقص مدرک' ,'"
+				.$dota['senderID']."','".date("Y-m-d H:i:s")."',NULL, 'برگشت:".$dota['subject']."' , 'بعلت نقص مدرک بازگشت داده شده است\n".$dota['context']."' ,'"
 				.$dota['private']."', '".$dota['priority']."', 'جهت بررسی و اقدام لازم', '"
 				.$dota['attachment']."')";
 		$quer=mysql_query($str);
 		if(mysql_affected_rows() == 1)
-			header("Location: inbox.php?result=bargashtSuccess");
+		{
+			$qerror=mysql_query("SELECT errorNum FROM users WHERE id = '".$_SESSION['username']."'");
+			$qdata=mysql_fetch_array($qerror);
+			$error=$qdata['errorNum']+1;
+			$errorupdate = mysql_query("UPDATE users SET errorNum = '".$error."' WHERE id = '".$dota['senderID']."'");
+			if(mysql_affected_rows() == 1)
+				header("Location: inbox.php?result=bargashtSuccess");
+		}
 		else
-			header("Location: compose.php?result=bargashtFailed");
+			header("Location: inbox.php?result=bargashtFailed");
 	}
 }
 ?>
