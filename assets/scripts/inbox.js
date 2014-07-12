@@ -1,3 +1,4 @@
+var page_num=0;
 var Inbox = function () {
 
     var content = $('.inbox-content');
@@ -36,16 +37,16 @@ var Inbox = function () {
     }	
 	
 	
-    var loadInbox = function (el, name,por) {
- 
+    var loadInbox = function (el, name,por,page) {
         var title = $('.inbox-nav > li.' + name + ' a').attr('data-title');
-
         loading.show();
         content.html('');
         toggleButton(el);
-		var url="inbox_inbox.php";
+		var url="inbox_inbox.php?";
 		if(por>0)
-			url+="?por="+por;
+			url+="por="+por+"&";
+		if(page>0)
+			url+="offset="+page;
         $.ajax({
             type: "POST",
             //cache: false,
@@ -134,7 +135,6 @@ var Inbox = function () {
     }
     var loadMessage = function (el, name, resetMenu) {
         var url = 'inbox_view.php';
-		alert(el.nodeName+" "+resetMenu);
         loading.show();
         content.html('');
         toggleButton(el);
@@ -344,7 +344,7 @@ var Inbox = function () {
 
             // handle compose btn click
             $('.inbox .compose-btn a').live('click', function () {
-                loadCompose($(this));
+                loadInbox($(this),'inbox',0,page_num);
             });
 
             // handle reply and forward button click
@@ -359,7 +359,7 @@ var Inbox = function () {
 
             // handle inbox listing
             $('.inbox-nav > li.inbox > a').click(function () {
-                loadInbox($(this), 'inbox',0);
+                loadInbox($(this), 'inbox',0,page_num);
             });
 
             // handle sent listing
@@ -386,14 +386,12 @@ var Inbox = function () {
             $('.inbox-compose .mail-to .inbox-bcc').live('click', function () {
                 handleBCCInput();
             });
-
+			//handle Page
+			if (App.getURLParameter("page") ) 
+                page_num=App.getURLParameter("page");
             //handle loading content based on URL parameter
-            if (App.getURLParameter("priority") === "1") {
-                loadInbox($(this), 'inbox',1);
-            } else if (App.getURLParameter("priority") === "2") {
-                loadInbox($(this), 'inbox',2);
-            } else if (App.getURLParameter("priority") === "3") {
-                loadInbox($(this), 'inbox',3);
+			if (App.getURLParameter("priority") ) {
+                loadInbox($(this), 'inbox',App.getURLParameter("priority"),page_num);
             }else {
                $('.inbox-nav > li.inbox > a').click();
             }
@@ -403,3 +401,14 @@ var Inbox = function () {
     };
 
 }();
+
+function page_up()
+{
+	page_num++;
+}
+function page_down()
+{
+	page_num--;
+	if(page_num<0)
+		page_num=0;
+}

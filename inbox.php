@@ -313,7 +313,7 @@ Author: KeenThemes
 					<ul class="page-breadcrumb breadcrumb">
 						<li class="btn-group">
 							<button type="button" class="btn blue">
-							<span>جست و جو</span> <i class="fa fa-angle-down"></i>
+							<span>جست و جو</span><i class="fa fa-search"></i>
 							</button>
 						</li>
 						<li>
@@ -336,7 +336,7 @@ Author: KeenThemes
 							<a href="javascript:;" class="btn" data-title="نامه وارده">نامه وارده (3)</a>
 							<b></b>
 						</li>
-						<li class="sent"><a class="btn" href="javascript:;" data-title="نامه ارسالی">نامه ارسالی</a><b></b></li>
+						<li class="sent"><a id="koofte" class="btn" href="javascript:;" data-title="نامه ارسالی">نامه ارسالی</a><b></b></li>
 						<li class="draft"><a class="btn" href="javascript:;" data-title="پیش نویس">پیش نویس</a><b></b></li>
 						<li class="trash"><a class="btn" href="javascript:;" data-title="بازیافت">بازیافت</a><b></b></li>
 					</ul>
@@ -585,7 +585,9 @@ jQuery(document).ready(function() {
 // initiate layout and plugins
 App.init();
 UIBootbox.init();
+
 });
+
 </script>
 	<!-- END JAVASCRIPTS -->
 </body>

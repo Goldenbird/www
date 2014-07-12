@@ -37,7 +37,6 @@
 		$dataha[$i][1]=$data['subject'];
 		$dataha[$i][2]=$data['senderID'];
 		$dataha[$i][3]=$data['id'];
-		
 	}
 	$tmp = Array(); 
 	foreach($dataha as &$dt) 
@@ -57,17 +56,17 @@
 		else if($remainder <= 0)
 			echo "فرصت پاسخگویی به این نامه تمام شده است";
 		echo '
-		<li>
+		<li';echo(($i==($unread_num-1))?('class="last-line"'):(''));echo'>
 			<a href="inbox.php?loadview='.$dataha[$i][3].'">
 			<span class="photo">';
-			$q=mysql_query("SELECT name, familyName, image FROM users WHERE id='".$data['senderID']."'");
+			$q=mysql_query("SELECT name, familyName, image FROM users WHERE id='".$dataha[$i][2]."'");
 			$sender=mysql_fetch_array($q);
 			echo'<img src="'.$sender['image'].'" alt=""/></span>
 			<span class="subject">
 			<span class="from">'.$sender['name'].' '.$sender['familyName'].'</span>
 			</span>
 			<span class="message">
-			'.$data['subject'].'
+			'.$dataha[$i][1].'
 			</span>  
 			</a>
 		</li>

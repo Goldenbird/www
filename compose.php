@@ -244,8 +244,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "-->" ;
 					}
 				?>
-				<li class="tooltips" data-placement="left" data-original-title="Frontend&nbsp;Theme For&nbsp;Metronic&nbsp;Admin">
-					<a href="userEdit.php" target="_blank">
+				<li>
+					<a href="userEdit.php">
 					<i class="fa fa-gift"></i> 
 					<span class="title">مشخصات کاربری</span>
 					</a>
@@ -396,7 +396,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 		<form class="inbox-compose form-horizontal" id="form1" name="form1" action="" method="POST" enctype="multipart/form-data">
 			<div class="inbox-compose-btn">
-				<button class="btn green" type="button" onclick=formValidation()><i class="fa fa-check" ></i>ارسال</button>
+				<button class="btn blue" type="button" onclick=formValidation()><i class="fa fa-check" ></i>ارسال</button>
 				<button class="btn" type="button" onclick="delCompose()">حذف</button>
 				<!--<form id="draft" action="draft.php?action=draft" method="POST" >-->
 				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button><!--</form>-->
@@ -466,7 +466,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</div>
 				</div>
 			<div class="inbox-compose-btn">
-				<button class="btn green" type="button" onclick=formValidation()><i class="fa fa-check"></i>ارسال</button>
+				<button class="btn blue" type="button" onclick=formValidation()><i class="fa fa-check"></i>ارسال</button>
 				<button class="btn" type="button" onclick="delCompose()">حذف</button>
 				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button>
 				<button class="btn" type="button">لیست هامشها</button>

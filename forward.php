@@ -272,6 +272,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
 		<div class="page-content">
+
 			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
 			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -371,6 +372,41 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			</div>
 			<!-- END PAGE HEADER-->
 	<!-- START PAGE CONTENT-->
+	<div style="display: block; position: absolute; top:20%; left:20%" >
+	<!-- full width -->
+			<div id="full-width" class="modal container fade" tabindex="-1" style="position: relative; top:20%; left:65%">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+					<h4 class="modal-title"><strong>لیست هامش ها</strong></h4>
+				</div>
+				<div class="modal-body">
+					<?php
+						$myq="SELECT * FROM hamesh where senderID='".$_SESSION['username']."'";
+						$hamesh=mysql_query($myq);
+						$mnr=mysql_num_rows($hamesh);
+						$hameshList = mysql_fetch_array($hamesh); 
+						for($i = 0; $i < $mnr; $i++)
+						{
+							echo
+							(
+							'<tr ');
+							echo('>
+							<td class="inbox-small-cells">
+								<input type="checkbox" id="khar" value="'.$hameshList['id'].'" class="mail-checkbox">
+							</td>
+							<td class="view-message">'.$hameshList['content'].'</td>
+							</tr>'
+							);		
+						}
+					
+					?>
+				</div>
+				<div class="modal-footer">
+					<button type="button" data-dismiss="modal" class="btn btn-default">لغو</button>
+					<button type="button" class="btn blue" name="hameshCompose" onclick=hameshValidation('forward') data-dismiss="modal" >ارجاع هامش</button>
+				</div>
+			</div>
+		</div>
 		<?php
 		$letterIDs=$_GET['letter'];
 					if(isset($_GET['error']) and $_GET['error']=='WrongTo')
@@ -378,7 +414,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 		<form class="inbox-compose form-horizontal" id="form1" name="form1" action="letter-forward.php?action=forward&parID=<?php echo $letterIDs;?>" method="POST" enctype="multipart/form-data">
 			<?php
-				
 				include 'db_connect.php';
 				$query="select * from letters where id = '".$letterIDs."'";
 				$q = mysql_query($query);
@@ -386,14 +421,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				$subject = $data['subject'];
 				$private = $data['private'];
 				$actionType = $data['actionType'];
-				$content =$data['context'].'</br>.............</br>'; 
+				$content =$data['context']."\n .................................................................. \n"; 
 			?>
 			<div class="inbox-compose-btn">
 				<button class="btn blue" type="button" onclick=formValidation()><i class="fa fa-check" ></i>ارسال</button>
-				<button class="btn" type="button">حذف</button>
-				<button class="btn" type="button">پیش نویس</button>
+				<button class="btn" type="button" onclick="delCompose()">حذف</button>
+				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button>
 				<button class="btn" type="button">لیست هامشها</button>
-				<button class="btn" type="button">چاپ</button>
 			</div>
 			<div class="inbox-form-group mail-to">
 				<label class="control-label">به:</label>
@@ -448,7 +482,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			</div>
 			<div class="form-group last">	
 				<div class="col-md-9">
-					<textarea class="ckeditor form-control" name="message" id="context" rows="6"><?php echo ($content); ?></textarea>
+					<textarea class="inbox-editor inbox-wysihtml5 form-control" name="message" id="context" rows="12"><?php echo ($content); ?></textarea>
 				</div>
 			</div>
 			<div class="inbox-compose-attachment" >
@@ -462,10 +496,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			</div>
 			<div class="inbox-compose-btn">
 				<button class="btn blue" type="button" onclick=formValidation()><i class="fa fa-check"></i>ارسال</button>
-				<button class="btn" type="button">حذف</button>
-				<button class="btn" type="button">پیش نویس</button>
+				<button class="btn" type="button" onclick="delCompose()">حذف</button>
+				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button>
 				<button class="btn" type="button">لیست هامشها</button>
-				<button class="btn" type="button">چاپ</button>
 			</div>
 		</form>
 	<!--END PAGE CONTENT-->
@@ -696,6 +729,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		function compose()
 		{
 			document.getElementById("demo").innerHTML = Date();
+		}
+		function delCompose()
+	{
+		window.location.href='inbox.php';
+	}
+	function saveDraft(){
+			document.getElementById('form1').setAttribute('action','letter-compose.php?action=draft');
+			document.getElementById('form1').submit();
+			//window.location.href="letter-compose.php?action=draft";
 		}
 	</script>
 	<!-- END JAVASCRIPTS -->

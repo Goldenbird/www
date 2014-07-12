@@ -75,7 +75,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				
 				<!-- BEGIN INBOX DROPDOWN -->
 				<li class="dropdown" id="header_inbox_bar" onclick="notifer()">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" 	data-close-others="true"  >
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"  >
 					<i class="fa fa-envelope"></i>
 					<span class="badge" id="notifNum">0</span>
 					</a>
@@ -423,6 +423,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</div>
 			</div>
 			<div class="clearfix"></div>
+			<!-- آخرین نامه ها -->
+			<?php
+			$str="SELECT * FROM letters WHERE recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL";
+			$letters=mysql_query($str);
+			echo ('
 			<div class="row ">
 				<div class="col-md-6 col-sm-6" style="display: block; position: relative; top:55%; left:-25%">
 					<div class="portlet box green tasks-widget">
@@ -456,187 +461,31 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							<div class="task-content">
 								<div class="scroller" style="height: 305px;" data-always-visible="1" data-rail-visible1="1">
 									<!-- START TASK LIST -->
-									<ul class="task-list">
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
+									<ul class="task-list">');
+									$letterNum=mysql_num_rows($letters);
+								for($i = 1; $i <= $letterNum; $i++)
+								{
+									$letter = mysql_fetch_array($letters);
+									$quser=mysql_query("SELECT name, familyName FROM users WHERE id='".$letter['senderID']."'");
+									$sender = mysql_fetch_array($quser);
+									echo('
+										<li');echo(($i==$letterNum)?('class="last-line"'):(''));echo('>
 											<div class="task-title">
-												<span class="task-title-sp">Present 2013 Year IPO Statistics at Board Meeting</span>
-												<span class="label label-sm label-success">Company</span>
-												<span class="task-bell"><i class="fa fa-bell-o"></i></span>
+												<a style="text-decoration:none" href="inbox.php?loadview='.$letter['id'].'">
+												<span class="task-title-sp">'.$sender['name'].' '.$sender['familyName'].' '.$letter['subject'].'</span>');
+												switch ($letter['priority']){
+												case '1':
+												{echo ('<span class="label label-sm label-success">عادی</span>');break;}
+												case '2':
+												{echo ('<span class="label label-sm label-warning">فوری</span>');break;}
+												case '3':
+												{echo ('<span class="label label-sm label-danger">آنی</span>');break;}
+												}
+												echo('</a>
 											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-													<i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">Hold An Interview for Marketing Manager Position</span>
-												<span class="label label-sm label-danger">Marketing</span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-													<i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">AirAsia Intranet System Project Internal Meeting</span>
-												<span class="label label-sm label-success">AirAsia</span>
-												<span class="task-bell"><i class="fa fa-bell-o"></i></span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-													<i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">Technical Management Meeting</span>
-												<span class="label label-sm label-warning">Company</span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">Kick-off Company CRM Mobile App Development</span>
-												<span class="label label-sm label-info">Internal Products</span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">
-												Prepare Commercial Offer For SmartVision Website Rewamp 
-												</span>
-												<span class="label label-sm label-danger">SmartVision</span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">Sign-Off The Comercial Agreement With AutoSmart</span>
-												<span class="label label-sm label-default">AutoSmart</span>
-												<span class="task-bell"><i class="fa fa-bell-o"></i></span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li>
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">Company Staff Meeting</span>
-												<span class="label label-sm label-success">Cruise</span>
-												<span class="task-bell"><i class="fa fa-bell-o"></i></span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
-										<li class="last-line">
-											<div class="task-checkbox">
-												<input type="checkbox" class="liChild" value="" style="" />                                       
-											</div>
-											<div class="task-title">
-												<span class="task-title-sp">KeenThemes Investment Discussion</span>
-												<span class="label label-sm label-warning">KeenThemes</span>
-											</div>
-											<div class="task-config">
-												<div class="task-config-btn btn-group">
-													<a class="btn btn-xs default" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true"><i class="fa fa-cog"></i><i class="fa fa-angle-down"></i></a>
-													<ul class="dropdown-menu pull-right">
-														<li><a href="#"><i class="fa fa-check"></i> Complete</a></li>
-														<li><a href="#"><i class="fa fa-pencil"></i> Edit</a></li>
-														<li><a href="#"><i class="fa fa-trash-o"></i> Cancel</a></li>
-													</ul>
-												</div>
-											</div>
-										</li>
+										</li>');
+								}
+								echo('		
 									</ul>
 									<!-- END START TASK LIST -->
 								</div>
@@ -650,7 +499,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</div>
 				</div>
 				
-			</div>
+			</div>');
+			?>
+			<!-- آخرین نامه ها -->
 			<div class="clearfix"></div>			
 			<div class="clearfix"></div>
 			<div class="clearfix"></div>
