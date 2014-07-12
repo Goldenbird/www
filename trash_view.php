@@ -16,37 +16,31 @@ if(isset($_GET['letter']) == false)
 		if(mysql_num_rows($q) == 0)
 			die('نامه ای یافت نشد.');
 		$trash = mysql_fetch_array($q);
-		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$letter['senderID']."'");
+		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$trash['senderID']."'");
 		$senderName = mysql_fetch_array($data);
-		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$letter['recieverID']."'");
+		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$trash['recieverID']."'");
 		$recieverName = mysql_fetch_array($data);
 	echo('<div class ="row">	
 		<div class="col-md-7">
 			<p align = "right">از:'.$senderName['name'].' '.$senderName['familyName'].'</p>
 			<p align = "right">به:'.$recieverName['name'].' '.$recieverName['familyName'].'</p>
-			<p align = "right">موضوع:'.$letter['subject'].'</p>
+			<p align = "right">موضوع:'.$trash['subject'].'</p>
 		</div>
 		<div class="col-md-5">
-			<p align = "right">شماره:'.$letter['id'].'</p>
+			<p align = "right">شماره:'.$trash['id'].'</p>
 		</div>
 	</div>
 </div>
 <div class="inbox-view">');
-		echo (' <td class="view-message ">'.$letter['context'].'</td> ');
+		echo (' <td class="view-message ">'.$trash['context'].'</td> ');
 ?>
 <div class="inbox-view-info">
 	<div class="row">
-	<!--		<div class="btn-group">			
-				<a href="forward.php?letter=<?php echo $letter['id']; ?>" class="btn blue">ارجاع<i class="fa fa-mail-forward"></i></a>
+			<div class="btn-group">
+				<a href="#" class="btn purple" onclick="del('<?php echo $trash['id']; ?>');">حذف <i class="fa fa-trash-o"></i></a>
 			</div>
 			<div class="btn-group">
-				<a href="#" class="btn red" data-target="#full-width" data-toggle="modal">هامش<i class="fa fa-edit"></i></a>
-			</div> -->
-			<div class="btn-group">
-				<a href="#" class="btn purple" onclick="del('<?php echo $letter['id']; ?>');">حذف <i class="fa fa-trash-o"></i></a>
-			</div>
-			<div class="btn-group">
-				<a href="printLetter.php?letter=<?php echo $letter['id']; ?>" target="_blank" class="btn default">چاپ<i class="fa fa-file-o"></i></a>
+				<a href="printLetter.php?letter=<?php echo $trash['id']; ?>" target="_blank" class="btn default">چاپ<i class="fa fa-file-o"></i></a>
 			</div>
 		</div>		
 	</div>

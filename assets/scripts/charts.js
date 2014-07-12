@@ -6,7 +6,7 @@ var Charts = function () {
         init: function () {
 
             App.addResponsiveHandler(function () {
-                 Charts.initPieCharts(); 
+                 Charts.initBarCharts(); 
             });
             
         },
@@ -16,7 +16,7 @@ var Charts = function () {
             if (!jQuery.plot) {
                 return;
             }
-
+			
             var data = [];
             var totalPoints = 250;
 
@@ -39,7 +39,7 @@ var Charts = function () {
             }
 
             //Basic Chart
-
+			
             function chart1() {
                 var d1 = [];
                 for (var i = 0; i < Math.PI * 2; i += 0.25)
@@ -52,7 +52,7 @@ var Charts = function () {
                 var d3 = [];
                 for (var i = 0; i < Math.PI * 2; i += 0.1)
                     d3.push([i, Math.tan(i)]);
-
+					
                 $.plot($("#chart_1"), [{
                             label: "sin(x)",
                             data: d1
@@ -90,9 +90,11 @@ var Charts = function () {
                             }
                         }
                     });
-
+				
+				
+				
             }
-
+			
             //Interactive Chart
 
             function chart2() {
@@ -208,7 +210,7 @@ var Charts = function () {
                         }
                     });
 
-
+				
                 function showTooltip(x, y, contents) {
                     $('<div id="tooltip">' + contents + '</div>').css({
                             position: 'absolute',
@@ -245,9 +247,9 @@ var Charts = function () {
                     }
                 });
             }
-
+			
             //Tracking Curves
-
+			
             function chart3() {
                 //tracking curves:
 
@@ -429,19 +431,18 @@ var Charts = function () {
             }
 
             //graph
-            chart1();
-            chart2();
-            chart3();
-            chart4();
-            chart5();
-
+            //chart1();
+            //chart2();
+            //chart3();
+            //chart4();
+            //chart5();
+			
         },
 
         initBarCharts: function () {
 
             // bar chart:
-            var data1 = GenerateSeries(0);
-     
+            var data1 = GenerateSeries(10);
             function GenerateSeries(added){
                 var data = [];
                 var start = 100 + added;
@@ -462,13 +463,12 @@ var Charts = function () {
                         bars:{show: true}
                     },
                     bars:{
-                          barWidth:0.8
+                          barWidth:0.5
                     },            
                     grid:{
                         backgroundColor: { colors: ["#fafafa", "#35aa47"] }
                     }
             };
- 
             $.plot($("#chart_1_1"), [data1], options);
 
             // horizontal bar chart:

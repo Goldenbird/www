@@ -34,17 +34,6 @@ if(isset($_GET['letter']) == false)
 <div class="inbox-view">');
 		echo (' <td class="view-message ">'.$draft['context'].'</td> ');
 ?>
-<!--<div class="inbox-view">
-<?php/*
-	include 'db_connect.php';
-	$q=mysql_query("SELECT * from drafts where id='".$_GET['letter']."'");
-	if(mysql_num_rows($q) > 0)
-	{
-		$letter = mysql_fetch_array($q);
-		echo (' <td class="view-message ">'.$letter['context'].'</td> ');
-		//$quer = mysql_query("UPDATE");
-	}*/
-?> -->
 <div class="inbox-view-info">
 	<div class="row">
 			<div class="btn-group">			
