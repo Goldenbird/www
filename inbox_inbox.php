@@ -55,8 +55,8 @@ else
 					$mnr=mysql_num_rows($letter);
 				?>
 				<span class="pagination-info"><?php echo "1-5"." از ".$mnr; ?></span>
-				<a class="btn btn-sm blue" onclick="page_down()"> <i class="fa fa-angle-right"></i></a>
-				<a class="btn btn-sm blue" onclick="page_up()"><i class="fa fa-angle-left"></i></a>
+				<a class="btn btn-sm blue" onclick="page_down()"><i class="fa fa-angle-right"></i></a>
+				<a class="btn btn-sm blue" onclick="page_up()"> <i class="fa fa-angle-left"></i></a>
 			</th>
 		</tr>
 	</thead>
@@ -82,8 +82,9 @@ else
 						<td class="view-message  golabi" name="letS'.$data['id'].'" onclick="viewMe('.$data['id'].',0)">'.$data['subject'].'</td>
 						<td class="view-message sib">'); echo (($data['private'] == '0') ? ('غیرمحرمانه') : ('محرمانه')); echo('</td>
 						<td class="view-message sib">'.$data['actionType'].'</td>
-						<td class="view-message sib inbox-small-cells"><i class="fa fa-paper-clip"></i></td>
-						<td class="view-message sib text-right">'.$data['sentDate'].'</td>
+						<td class="view-message sib inbox-small-cells">');
+						if($data['attachment'] != "NULL" && $data['attachment'] != NULL) echo('<i class="fa fa-paperclip"></i></td>'); else echo ('</td>');
+						echo('<td class="view-message sib text-right">'.$data['sentDate'].'</td>
 					</tr>'
 				);
 			}
