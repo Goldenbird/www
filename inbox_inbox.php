@@ -17,6 +17,10 @@ else
 		.sib{
 			cursor:default;
 		}
+		.unread
+		{
+			background-color:#7FDFFF;
+		}
 	</style>
 </head>
 <table class="table table-striped table-advance table-hover">
@@ -80,11 +84,11 @@ else
 						<td class="inbox-small-cells"></td>
 						<td class="view-message sib hidden-xs">'.$recieverName['name'].' '.$recieverName['familyName'].'</td>
 						<td class="view-message  golabi" name="letS'.$data['id'].'" onclick="viewMe('.$data['id'].',0)">'.$data['subject'].'</td>
-						<td class="view-message sib">'); echo (($data['private'] == '0') ? ('غیرمحرمانه') : ('محرمانه')); echo('</td>
-						<td class="view-message sib">'.$data['actionType'].'</td>
-						<td class="view-message sib inbox-small-cells">');
-						if($data['attachment'] != "NULL" && $data['attachment'] != NULL) echo('<i class="fa fa-paperclip"></i></td>'); else echo ('</td>');
-						echo('<td class="view-message sib text-right">'.$data['sentDate'].'</td>
+						<td class="view-message sib" onclick="viewMe('.$data['id'].',0)>'); echo (($data['private'] == '0') ? ('غیرمحرمانه') : ('محرمانه')); echo('</td>
+						<td class="view-message sib" onclick="viewMe('.$data['id'].',0)">'.$data['actionType'].'</td>
+						<td class="view-message sib inbox-small-cells" onclick="viewMe('.$data['id'].',0)">');
+						if($data['attachment'] != "NULL" && $data['attachment'] != NULL) echo('<i class="fa fa-paperclip"></i>');
+						echo('</td> <td class="view-message sib text-right">'.$data['sentDate'].'</td>
 					</tr>'
 				);
 			}
