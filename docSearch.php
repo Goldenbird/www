@@ -74,12 +74,18 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			background-color: #3366CC;
 			padding: 2px 6px 2px 6px;
 		}
-		#search_suggest {
+		#search_suggestS {
 			position: absolute; 
 			background-color: #FFFFFF; 
 			text-align: left; 
 			border: 1px solid #000000;			
-		}		
+		}
+		#search_suggestR {
+			position: absolute; 
+			background-color: #FFFFFF; 
+			text-align: left; 
+			border: 1px solid #000000;			
+		}				
 	</style>
 	<link rel="shortcut icon" href="favicon.ico" />
 </head>
@@ -314,6 +320,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 												<div class="col-md-9">
 													<input type="text" name="fakeToSender" id="fakeToSender" onkeyup="searchSuggestS();" autocomplete="off" class="form-control">
 													<input type="text" name="realToSender" id="realToSender" style="display:none">
+													<div id="search_suggestS" style="display:block; z-index:99;"></div>
 												</div>
 											</div>
 										</div>
@@ -324,6 +331,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 												<div class="col-md-9">
 													<input type="text" name="fakeToReciever" id="fakeToReciever" onkeyup="searchSuggestR();" autocomplete="off" class="form-control">
 													<input type="text" name="realToReciever" id="realToReciever" style="display:none">
+													<div id="search_suggestR" style="display:block; z-index:99;"></div>
 												</div>
 											</div>
 										</div>
@@ -334,7 +342,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group">
 												<label class="control-label col-md-3">تاریخ ارسال: از </label>
 												<div class="col-md-9">
-													<input id="sentDateFrom" name="sentDateFrom" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
+													<input id="sentDateFrom" name="sentDateFrom" type="text" maxlength="19" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS">
 												</div>
 											</div>
 										</div>
@@ -343,7 +351,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group">
 												<label class="control-label col-md-3">تا </label>
 												<div class="col-md-9">
-													<input id="sentDateTo" name="dob" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
+													<input id="sentDateTo" name="sentDateTo" type="text" maxlength="19" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS">
 												</div>
 											</div>
 										</div>
@@ -355,7 +363,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group">
 												<label class="control-label col-md-3">تاریخ دریافت: از</label>
 												<div class="col-md-9">
-													<input id="recieveDateFrom" name="recieveDateFrom" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
+													<input id="recieveDateFrom" name="recieveDateFrom" type="text" maxlength="19" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS">
 												</div>
 											</div>
 										</div>
@@ -364,7 +372,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group">
 												<label class="control-label col-md-3">تا </label>
 												<div class="col-md-9">
-													<input id="recieveDateTo" name="recieveDateTo" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
+													<input id="recieveDateTo" name="recieveDateTo" type="text" maxlength="19" class="form-control" placeholder="YYYY-MM-DD HH:MM:SS">
 												</div>
 											</div>
 										</div>
@@ -398,8 +406,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 												<div class="col-md-9">
 													<select id="privacy" name="privacy" class="form-control">
 														<option value=""></option>
-														<option value="غیر محرمانه">غیر محرمانه</option>
-														<option value="معرمانه">محرمانه</option>
+														<option value="1">غیر محرمانه</option>
+														<option value="0">محرمانه</option>
 													</select>
 													<span class="help-block"></span>
 												</div>
@@ -412,9 +420,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 												<div class="col-md-9">
 													<select id="priority" name="priority" class="form-control">
 														<option value=""></option>
-														<option value="عادی">عادی</option>
-														<option value="فوری">فوری</option>
-														<option value="آنی">آنی</option>
+														<option value="1">عادی</option>
+														<option value="2">فوری</option>
+														<option value="3">آنی</option>
 													</select>
 												</div>
 											</div>
@@ -523,7 +531,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		var priority = document.getElementById('priority');*/
 		function checkForm()
 		{
-			if(docType == "")
+			if(docType.value == "")
 				alert("نوع مدرک نمی تواند خالی باشد.");
 			else
 				document.getElementById('formDocSearch').submit();
@@ -539,6 +547,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		} else {
 			alert("Your Browser is too old!\nIt's about time to upgrade don't you think?");
 		}
+	}	
+	//Mouse over function
+	function suggestOver(div_value) {
+		div_value.className = 'suggest_link_over';
+	}
+	//Mouse out function
+	function suggestOut(div_value) {
+		div_value.className = 'suggest_link';
 	}
 	//Our XmlHttpRequest object to get the auto suggest
 	var req1 = getXmlHttpRequestObject();
@@ -556,7 +572,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	//Called when the AJAX response is returned.
 	function handleSearchSuggestS() {
 		if (req1.readyState == 4) {
-			var ss = document.getElementById('search_suggest')
+			var ss = document.getElementById('search_suggestS')
 			ss.innerHTML = '';
 			var str = req1.responseText.split("\n");
 			for(i=0; i < str.length - 1; i++) {
@@ -573,14 +589,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	{
 		document.getElementById('realToSender').value += value+"|";
 	}
-	//Mouse over function
-	function suggestOver(div_value) {
-		div_value.className = 'suggest_link_over';
-	}
-	//Mouse out function
-	function suggestOut(div_value) {
-		div_value.className = 'suggest_link';
-	}
 	//Click function
 	function setSearchS(value) {
 		var tmp = document.getElementById('fakeToSender').value.trim();
@@ -590,7 +598,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		else
 			tmp="";
 		document.getElementById('fakeToSender').value = tmp+value+"|";
-		document.getElementById('search_suggest').innerHTML = '';
+		document.getElementById('search_suggestS').innerHTML = '';
 	}
 	//RECIEVER--------------------------------------------------------------------------------
 	//Our XmlHttpRequest object to get the auto suggest
@@ -609,7 +617,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	//Called when the AJAX response is returned.
 	function handleSearchSuggestR() {
 		if (req2.readyState == 4) {
-			var ss = document.getElementById('search_suggest')
+			var ss = document.getElementById('search_suggestR')
 			ss.innerHTML = '';
 			var str = req2.responseText.split("\n");
 			for(i=0; i < str.length - 1; i++) {
@@ -635,7 +643,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		else
 			tmp="";
 		document.getElementById('fakeToReciever').value = tmp+value+"|";
-		document.getElementById('search_suggest').innerHTML = '';
+		document.getElementById('search_suggestR').innerHTML = '';
 	}
 	</script>
 		<!-- BEGIN PAGE LEVEL PLUGINS -->
