@@ -312,9 +312,10 @@ Author: KeenThemes
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
 						<li class="btn-group">
+						<a href="docSearch.php" style="text-decoration:none;color:white;">
 							<button type="button" class="btn blue">
-							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جوی مدرک</a><i class="fa fa-search"></i>
-							</button>
+							 جست و جوی مدرک<i class="fa fa-search"></i> 
+							</button></a>
 						</li>
 						<li>
 							<i class="fa fa-home"></i>

@@ -28,21 +28,22 @@ if($_GET['action'] == "search")
 	$privacy = $_POST['privacy'];
 	$priority = $_POST['priority'];
 	//sender,reciever
-	"SELECT * FROM `letters` WHERE `id``senderID``recieverID``sentDate``recievedDate``subject``context``private``actionType`
-				`status``priority``trash``error``attachment``parent`";
+//	"SELECT * FROM `letters` WHERE `id``senderID``recieverID``sentDate``recievedDate``subject``context``private``actionType`
+	//			`status``priority``trash``error``attachment``parent`";
 	if($docType = "نامه دریافتی")
 	{
-		$q1 = "SELECT * FROM letters WHERE recieverID = '".$_SESSION['username']."' AND senderID = '".$sender."' AND ".
-		(($sentFrom!="" && $sentTo!="")?("sentDate BETWEEN '".$sentFrom."' AND '".$sentTo."' AND "):("")).
-		(($recievedFrom!="" && $recievedTo!="")?("recievedDate BETWEEN '".$recievedFrom."' AND '".$recievedTo."' AND "):("")).
-		(($subject!="")?("subject = '".unicode_decode($subject)."%' AND "):("")).
-		(($keyword!="")?("context like('".unicode_decode($keyword)."%') AND "):("")).
-		(($privacy!="")?("private = ('".($privacy)."%') AND "):("")).
-		(($priority!="")?("priority = ('".($privacy)."%') AND "):("")).
-		"ORDER BY sentDate";
-		$inboxq = str_replace("AND ORDER", " ORDER", $q1);
-		echo "inboxq = ".$inboxq;
-		$data=mysql_query($inboxq);
+		$q1 = "SELECT * FROM letters WHERE recieverID = '".$_SESSION['username']."' ";
+		if($sender!="") $q1=$q1."AND senderID = '".$sender."' ";
+		if($sentFrom!="" && $sentTo!="") $q1= $q1."AND sentDate BETWEEN '".$sentFrom."' AND '".$sentTo."' ";
+		if($recievedFrom!="" && $recievedTo!="") $q1=$q1."AND recievedDate BETWEEN '".$recievedFrom."' AND '".$recievedTo."' ";
+		if($subject!="") $q1=$q1."AND subject = '".unicode_decode($subject)."%' ";
+		if($keyword!="") $q1=$q1."AND context like('".unicode_decode($keyword)."%') ";
+		if($privacy!="") $q1=$q1."AND private = ('".($privacy)."%') ";
+		if($priority!="") $q1=$q1."AND priority = ('".($privacy)."%') ";
+		$q1=$q1."ORDER BY sentDate";
+
+		echo "inboxq = ".$q1;
+		$data=mysql_query($q1);
 	}
 	else if($docType = "نامه ارسالی")
 	{
