@@ -101,7 +101,7 @@ if(isset($_GET['letter']) == false)
 					<h4 class="modal-title"><strong>هامش</strong></h4>
 				</div>
 				<div class="modal-body">
-					<form action="hamesh-compose.php?act=cHamesh&letter=<?php echo $_GET['letter']; ?>" method="POST" id="form2">
+					<form action="hamesh-compose.php?act=cHamesh&letter=<?php echo $_GET['letter']; ?> method="POST" id="form2">
 						<div class="inbox-form-group mail-to">
 							<label class="control-label">به:</label>
 							<div class="controls controls-to">
@@ -138,7 +138,7 @@ echo('
 				<a href="forward.php?letter=<?php echo $letter['id']; ?>" class="btn blue">ارجاع<i class="fa fa-mail-forward"></i></a>
 			</div>
 			<div class="btn-group">
-				<a href="#" class="btn red" data-target="#full-width" data-toggle="modal">هامش<i class="fa fa-edit"></i></a>
+				<a href="#" class="btn red" data-target="#full-width" data-toggle="modal" onclick="hameshEmpty()">هامش<i class="fa fa-edit"></i></a>
 			</div>
 			<div class="btn-group">
 				<a href="#" class="btn purple" onclick="del('<?php echo $letter['id']; ?>');">حذف <i class="fa fa-trash-o"></i></a>
@@ -157,6 +157,12 @@ echo('
 </div>	
 <hr>
 <script>
+		function hameshEmpty()
+		{
+			document.getElementById('fakeTo').value="";
+			document.getElementById('realTo').value="";
+			document.getElementById('hamesh').value="";
+		}
 		function hameshValidation(val){
 			var content = document.getElementById('hamesh').value;
 			var to = document.getElementById('realTo').value;
