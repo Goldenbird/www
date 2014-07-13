@@ -74,6 +74,22 @@ if(isset($_GET['letter']) == false)
 	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
+	<style type="text/css" media="screen">
+		.suggest_link {
+			background-color: #FFFFFF;
+			padding: 2px 6px 2px 6px;
+		}
+		.suggest_link_over {
+			background-color: #3366CC;
+			padding: 2px 6px 2px 6px;
+		}
+		#search_suggest {
+			position: absolute; 
+			background-color: #FFFFFF; 
+			text-align: left; 
+			border: 1px solid #000000;			
+		}		
+	</style>
 </head>
 <div class="page-content">
 	<div class="row">
@@ -86,6 +102,14 @@ if(isset($_GET['letter']) == false)
 				</div>
 				<div class="modal-body">
 					<form action="hamesh-compose.php?act=cHamesh&letter=<?php echo $_GET['letter']; ?>" method="POST" id="form2">
+						<div class="inbox-form-group mail-to">
+							<label class="control-label">به:</label>
+							<div class="controls controls-to">
+								<input type="text" class="form-control col-md-12" name="fakeTo" id="fakeTo" onkeyup="searchSuggest();" autocomplete="off">
+								<input type="text" name="realTo" id="realTo" style="display:none">
+								<div id="search_suggest" style="display:block; z-index:99;"></div>
+							</div>
+						</div>
 						متن هامش:<textarea id="hamesh" name="hamesh" style="text-align:rtl;width:100%;height:300px;"></textarea>
 					</form>
 				</div>
@@ -135,6 +159,7 @@ echo('
 <script>
 		function hameshValidation(val){
 			var content = document.getElementById('hamesh').value;
+			var to = document.getElementById('realTo').value;
 			//alert (content);
 			var options={
 				"show" : "false","keyboard" : "true","backdrop" : "true"
@@ -153,7 +178,14 @@ echo('
 					data: 
 					{
 						"letter_id":<?php echo $letter['id']?>,
-						"hamesh":content
+						"letter_subject":"<?php echo $letter['subject']?>",
+						"letter_content":"<?php echo $letter['context']?>",
+						"letter_privacy":"<?php echo $letter['private']?>",
+						"letter_priority":"<?php echo $letter['priority']?>",
+						"letter_actionType":"<?php echo $letter['actionType']?>",
+						"letter_attach":"<?php echo $letter['attachment']?>",
+						"hamesh":content,
+						"to":to
 					},
 					success:function(result){
 						alert(result);
@@ -170,4 +202,67 @@ echo('
 		  if (confirm('آیا می خواهید این نامه پاک شود؟'))
 				window.location.href="deleteLetter.php?letDel="+id;
 		}
-</script>
+
+	//for google suggest-like TO field:
+	//Gets the browser specific XmlHttpRequest Object
+	function getXmlHttpRequestObject() {
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		} else if(window.ActiveXObject) {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} else {
+			alert("Your Browser Sucks!\nIt's about time to upgrade don't you think?");
+		}
+	}
+	//Our XmlHttpRequest object to get the auto suggest
+	var searchReq = getXmlHttpRequestObject();
+	//Called from keyup on the search textbox.
+	//Starts the AJAX request.
+	function searchSuggest() {
+		if (searchReq.readyState == 4 || searchReq.readyState == 0) {
+			var kol=document.getElementById('fakeTo').value.split('|');
+			var str = escape(kol[kol.length-1]);
+			searchReq.open("GET", 'searchSuggest.php?search=' + str, true);
+			searchReq.onreadystatechange = handleSearchSuggest; 
+			searchReq.send(null);
+		}		
+	}
+	//Called when the AJAX response is returned.
+	function handleSearchSuggest() {
+		if (searchReq.readyState == 4) {
+			var ss = document.getElementById('search_suggest')
+			ss.innerHTML = '';
+			var str = searchReq.responseText.split("\n");
+			for(i=0; i < str.length - 1; i++) {
+				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
+				suggest += 'onmouseout="javascript:suggestOut(this);" ';
+				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTo(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
+				ss.innerHTML += suggest;
+				//ss.innerHTML += str[i].split('$')[1];
+			}
+		}
+	}
+	function addTo(value)
+	{
+		document.getElementById('realTo').value += value+"|";
+	}
+	//Mouse over function
+	function suggestOver(div_value) {
+		div_value.className = 'suggest_link_over';
+	}
+	//Mouse out function
+	function suggestOut(div_value) {
+		div_value.className = 'suggest_link';
+	}
+	//Click function
+	function setSearch(value) {
+		var tmp = document.getElementById('fakeTo').value.trim();
+		var ind=tmp.lastIndexOf("|");
+		if(ind>0)
+			tmp=tmp.substr(0,tmp.lastIndexOf("|")+1);
+		else
+			tmp="";
+		document.getElementById('fakeTo').value = tmp+value+"|";
+		document.getElementById('search_suggest').innerHTML = '';
+	}</script>

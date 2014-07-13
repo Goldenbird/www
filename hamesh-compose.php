@@ -13,13 +13,19 @@ else
 {
 	$payload="";
 }
-$content = $_POST['hamesh'];
-//$letterContent = $_POST['letter_content'];
-//$letterContent=$letterContent.$content;;
+$hameshContent = $_POST['hamesh'];
+$private = $_POST['letter_privacy'];
+$priority = $_POST['letter_priority'];
+$actionType = $_POST['letter_actionType'];
+$letterContent = $_POST['letter_content'];
+$subject = $_POST['letter_subject'];
+$path = $_POST['letter_attach'];
+$to = $_POST['to'];
+$sentDate = date("Y-m-d H:i:s");
 if($_GET['act'] == "cHamesh") 
 {
 	$query="insert into hamesh (content,senderID)
-			values('".$content."','".$_SESSION['username']."')";		
+			values('".$hameshContent."','".$_SESSION['username']."')";		
 	$q = mysql_query($query);
 	if( mysql_affected_rows() == 1)
 		echo("هامش با موفقیت ثبت شد");
@@ -38,7 +44,7 @@ else if($_GET['act'] == "forward")
 	else
 	{
 		$query="insert into hamesh (content,senderID)
-			values('".$content."','".$_SESSION['username']."')";		
+			values('".$hameshContent."','".$_SESSION['username']."')";		
 		$q = mysql_query($query);
 		if( mysql_affected_rows() == 0)
 		{
@@ -50,7 +56,10 @@ else if($_GET['act'] == "forward")
 		if( mysql_affected_rows() == 1)
 		{
 			echo("هامش با موفقیت ارجاع شد");
-			//$que = mysql_query("update letters SET context="$letterContent" where id="$_POST['letter_id']" ");
+			$qu=mysql_query("insert into letters (id,senderID,recieverID,sentDate,recievedDate,subject,context,private,priority,actionType, attachment)
+			values('".$_POST['letter_id']."','".$_SESSION['username']."','".$to."','".$sentDate."',NULL,'".$subject."','".$letterContent."','".$private."','".$priority."','".$actionType."','".$path."')");
+			if(mysql_affected_rows() == 1)
+				echo("2هامش با موفقیت ارجاع شد");
 		}
 		else
 			echo("هامش با موفقیت ارجاع نشد");

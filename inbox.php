@@ -313,7 +313,7 @@ Author: KeenThemes
 					<ul class="page-breadcrumb breadcrumb">
 						<li class="btn-group">
 							<button type="button" class="btn blue">
-							<span>جست و جو</span><i class="fa fa-search"></i>
+							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جو مدرک</a><i class="fa fa-search"></i>
 							</button>
 						</li>
 						<li>
