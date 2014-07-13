@@ -6,7 +6,7 @@ include 'db_connect.php';
  if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
 else
-	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'"); 
+	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
 ?>
 <!DOCTYPE html>
 <!-- 
@@ -22,7 +22,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>سیستم اتوماسیون اداری | ایجاد گروه</title>
+	<title>سیستم اتوماسیون اداری | ارزشیابی</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -144,17 +144,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">کارتابل</span>
 					</a>
 				</li>
-				<li class="start active">
+				<li>
 					<a href="createGroup.php">
 					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
-					<span class="selected"></span>
 					</a>
 				</li>
-				<li>
+				<li class="start active">
 					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
+					<span class="selected"></span>
 					</a>
 					<!--<ul class="sub-menu">
 						<li>
@@ -231,9 +231,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			<!-- END SIDEBAR MENU -->
 		</div>
 		<!-- END SIDEBAR -->
+
 		<!-- BEGIN PAGE -->
 		<div class="page-content">
-			<!-- BEGIN STYLE CUSTOMIZER -->
+		<!-- BEGIN STYLE CUSTOMIZER -->
 			<div class="theme-panel hidden-xs hidden-sm">
 				<div class="toggler"></div>
 				<div class="toggler-close"></div>
@@ -286,14 +287,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title" >
 						<small></small>
-						ایجاد گروه 
+						ارزیابی 
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
-						<li class="btn-group">
-							<button type="button" class="btn blue">
-							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جو مدرک</a><i class="fa fa-search"></i>
-							</button>
-						</li>
 						<li>
 							<i class="fa fa-home"></i>
 							<a href="index.php">خانه</a> 
@@ -301,7 +297,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						</li>
 						<li>
 							<i class="fa fa-group"></i>
-							<a href="#">ایجاد گروه</a>
+							<a href="#">ارزیابی</a>
 						</li>
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->
@@ -321,54 +317,41 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						</div>
 						<div class="portlet-body form">
 							<!-- BEGIN FORM-->
-							<form enctype="multipart/form-data" id="formCreateGroup" method="post" action="cGroup.php?action=create" class="form-horizontal">
+							<form id="formEvaluation" method="post" action="evaluation.php?action=eval" class="form-horizontal">
 								<div class="form-body">
-									<h3 class="form-section">ایجاد گروه</h3>
+									<h3 class="form-section">بازه ی ارزیابی</h3>
 									<div class="row">
-										<div class="col-md-9">
-											<div id="divGname" class="form-group">
-												<label class="control-label col-md-3">نام گروه</label>
+										<div class="col-md-6">
+											<div class="form-group" id="divStartEval" >
+												<label class="control-label col-md-3">از تاریخ: </label>
 												<div class="col-md-9">
-													<input id="gName" name="gName" type="text" class="form-control" onchange=chGname()>
-													<span id="spanGname" class="help-block"></span>
+													<input id="start" name="start" type="text" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
 												</div>
 											</div>
 										</div>
+										<!--/span-->
+										<div class="col-md-6">
+											<div class="form-group" id="divEndEval">
+												<label class="control-label col-md-3">تا تاریخ: </label>
+												<div class="col-md-9">
+													<input id="end" name="end" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
+												</div>
+											</div>
+										</div>
+										<!--/span-->
 									</div>
+									<!--/row-->
+								<div class="form-actions fluid">
 									<div class="row">
-										<div class="col-md-9">
-											<div id="" class="form-group">
-												<label  class="col-md-3 control-label">انتخاب اعضا</label>
-												<div class="col-md-9">
-													<select multiple class="form-control" id="members" name="members[]">
-														<?php 
-														include 'db_connect.php';
-														$quer = mysql_query("SELECT users.id, users.name, users.familyName, occupation.name, departments.name
-																				FROM users, occupation, departments
-																				WHERE users.occupationID = occupation.id
-																				AND users.departmentID = departments.id
-																				AND users.id <> ".$_SESSION['username']);
-														for($i = 0; $i < mysql_num_rows($quer); $i++)
-														{
-															$data = mysql_fetch_array($quer);
-															echo ('<option value="'.$data['0'].'">'.$data['1']." ".$data['2']." ".$data['3']." ".$data['4'].'</option>');
-														}
-														?>
-													</select>
-												</div>
+										<div class="col-md-6">
+											<div class="col-md-offset-3 col-md-9">
+												<button type="button" class="btn blue" onclick=checkForm()>ارزیابی</button>
+												<button type="button" class="btn default" onclick="window.location.href='/index.php'"><a href="index.php">لغو</a></button>                              
 											</div>
 										</div>
-									</div>									
-									<div class="form-actions fluid">
-										<div class="row">
-											<div class="col-md-9">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="button" class="btn blue" onclick=checkForm()>ایجاد</button>
-													<button type="button" class="btn default" onclick="window.location.href='/index.php'">لغو</button>                              
-												</div>
-											</div>
-										</div>
+										<div class="col-md-6"></div>
 									</div>
+								</div>
 							</form>
 							<!-- END FORM-->                
 						</div>
@@ -376,7 +359,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</div>
 			</div>
 		</div>
-	</div>		
+	</div>
 	<!-- BEGIN FOOTER -->
 	<div class="footer">
 		<div class="footer-inner">
@@ -441,47 +424,32 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- END:File Upload Plugin JS files-->
 	<!-- END: Page level plugins -->
 	<script src="assets/scripts/app.js"></script>      
-	<script src="assets/scripts/inbox.js"></script>   
-<script src="assets/scripts/myplugins.js" type="text/javascript"></script>	
+	<script src="assets/scripts/inbox.js"></script>    
+	<script src="assets/scripts/myplugins.js" type="text/javascript"></script>
 	<script>
 		jQuery(document).ready(function() {       
 		   // initiate layout and plugins
 		   App.init();
 		   Inbox.init();
 		});
-	</script>
-	<script>
-		var gName = document.getElementById('gName');
-		var members = document.getElementById('members');
-		function chGname()
-		{
-			if(gNmae.value == "" )
-			{
-				document.getElementById('divGname').setAttribute('class', 'form-group has-error');
-				document.getElementById('spanGname').innerHTML = "نام گروه نمیتواند خالی باشد";
-			}
-			else
-			{
-				document.getElementById('divGname').setAttribute('class', 'form-group');
-				document.getElementById('spanGname').innerHTML = "";
-			}
-		}
+
 		function checkForm()
 		{
-			var cnt = 0;
-			for(var i = 0; i < members.options.length; i++)
-				if(members.options[i].selected)
-					cnt++;
-			if(cnt == 0)
-				alert("هیچ عضوی انتخاب نشده است");
-			else if(cnt == 1)
-				alert("حداقل دو عضو باید انتخاب شود");
-			else if(gName.value == ""){
-				document.getElementById('divGname').setAttribute('class', 'form-group has-error');
-				document.getElementById('spanGname').innerHTML = "نام گروه نمیتواند خالی باشد";
-			}
+			var start = document.getElementById('start');
+			var end = document.getElementById('end');
+			if(start.value == "")
+				alert("تاریخ شروع نمی تواند خالی باشد.");
+			else if(end.value == "")
+				alert("تاریخ پابان نمی تواند خالی باشد.");
 			else
-				document.getElementById('formCreateGroup').submit();
+				document.getElementById('formEvaluation').submit();
 		}
-	</script>	
+
+		
+		function compose()
+		{
+			document.getElementById("demo").innerHTML = Date();
+		}
+	</script>
+	
 	<!-- END JAVASCRIPTS -->

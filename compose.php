@@ -1,12 +1,13 @@
-<?php
+<?php 
 error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
 include 'db_connect.php';
- if(isset($_SESSION['username']) == false)
-	header("Location: page_login.php charset=utf-8");
+if(isset($_SESSION['username']) == false) 
+	header("Location: page_login.php");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
+
 ?>
 <!DOCTYPE html>
 <!-- 
@@ -20,7 +21,37 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <!-- BEGIN HEAD -->
+
 <head>
+	<meta charset="utf-8" />
+	<title>سیستم اتوماسیون اداری | ایجاد نامه </title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	<meta name="MobileOptimized" content="320">
+	<!-- BEGIN GLOBAL MANDATORY STYLES -->          
+	<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/bootstrap/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
+	<!-- END GLOBAL MANDATORY STYLES -->
+	<!-- BEGIN PAGE LEVEL PLUGIN STYLES --> 
+	<link href="assets/plugins/gritter/css/jquery.gritter-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
+	<link href="assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
+	<!-- END PAGE LEVEL PLUGIN STYLES -->
+	<!-- BEGIN THEME STYLES --> 
+	<link href="assets/css/style-metronic-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/style-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/style-responsive-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/plugins-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/pages/tasks-rtl.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/css/themes/default-rtl.css" rel="stylesheet" type="text/css" id="style_color"/>
+	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
+	<!-- END THEME STYLES -->
+	<link rel="shortcut icon" href="favicon.ico" />
 	<style type="text/css" media="screen">
 		body {
 			font: 11px arial;
@@ -40,37 +71,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			border: 1px solid #000000;			
 		}		
 	</style>
-	<meta charset="utf-8" />
-	<title>سیستم اتوماسیون اداری | ایجاد نامه </title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
-	<meta content="" name="description" />
-	<meta content="" name="author" />
-	<meta name="MobileOptimized" content="320">
-	<!-- BEGIN GLOBAL MANDATORY STYLES -->          
-	<link href="assets/plugins/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/bootstrap/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
-	<!-- END GLOBAL MANDATORY STYLES -->
-	<!-- BEGIN PAGE LEVEL PLUGIN STYLES --> 
-	<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/gritter/css/jquery.gritter-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/bootstrap-daterangepicker/daterangepicker-bs3.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/fullcalendar/fullcalendar/fullcalendar.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/jqvmap/jqvmap/jqvmap.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
-	<!-- END PAGE LEVEL PLUGIN STYLES -->
-	<!-- BEGIN THEME STYLES --> 
-	<link href="assets/css/style-metronic-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/css/style-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/css/style-responsive-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/css/plugins-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/css/pages/tasks-rtl.css" rel="stylesheet" type="text/css"/>
-	<link href="assets/css/themes/default-rtl.css" rel="stylesheet" type="text/css" id="style_color"/>
-	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
-	<!-- END THEME STYLES -->
-	<link rel="shortcut icon" href="favicon.ico" />
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -79,11 +79,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<!-- BEGIN TOP NAVIGATION BAR -->
 		<div class="header-inner">
-			<!-- BEGIN LOGO -->  
-			<a class="navbar-brand" href="index.php">
-			<img src="assets/img/logo.png" alt="logo" class="img-responsive" />
-			</a>
-			<!-- END LOGO -->
 			<!-- BEGIN RESPONSIVE MENU TOGGLER --> 
 			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<img src="assets/img/menu-toggler.png" alt="" />
@@ -94,7 +89,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				
 				<!-- BEGIN INBOX DROPDOWN -->
 				<li class="dropdown" id="header_inbox_bar" onclick="notifer()">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" 	data-close-others="true"  >
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"  >
 					<i class="fa fa-envelope"></i>
 					<span class="badge" id="notifNum">0</span>
 					</a>
@@ -136,7 +131,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		<!-- BEGIN SIDEBAR -->
 		<div class="page-sidebar navbar-collapse collapse">
 			<!-- BEGIN SIDEBAR MENU -->        
-<ul class="page-sidebar-menu">
+			<ul class="page-sidebar-menu">
 				<li>
 					<!-- BEGIN SIDEBAR TOGGLER BUTTON -->
 					<div class="sidebar-toggler hidden-phone"></div>
@@ -155,6 +150,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<a href="index.php">
 					<i class="fa fa-home"></i> 
 					<span class="title">داشبورد</span>
+					
 					</a>
 				</li>
 				<li class="start active">
@@ -165,19 +161,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</a>
 				</li>
 				<li>
+					<a href="inbox.php">
+					<i class="fa fa-envelope"></i> 
+					<span class="title">کارتابل</span>
+					</a>
+				</li>
+				<li>
 					<a href="createGroup.php">
 					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li>
-					<a href="inbox.php">
-					<i class="fa fa-envelope"></i> 
-					<span class="title">کارتابل</span>
-					</a>
-				</li>
-					<li class="last open">
-					<a href="evaluation.php">
+					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
@@ -241,6 +237,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					}
 				?>
 				<li>
+					<a href="myEval.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">کارنامه ی ارزشیابی من</span>
+					</a>
+				</li>
+				<li>
 					<a href="userEdit.php">
 					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
@@ -250,30 +252,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			<!-- END SIDEBAR MENU -->
 		</div>
 		<!-- END SIDEBAR -->
+
 		<!-- BEGIN PAGE -->
 		<div class="page-content">
-			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
-			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-							<h4 class="modal-title">Modal title</h4>
-						</div>
-						<div class="modal-body">
-							Widget settings form goes here
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn blue">Save changes</button>
-							<button type="button" class="btn default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 			<!-- BEGIN STYLE CUSTOMIZER -->
 			<div class="theme-panel hidden-xs hidden-sm">
 				<div class="toggler"></div>
@@ -338,13 +319,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							<i class="fa fa-angle-left"></i>
 						</li>
 						<li><a href="#">ایجاد نامه</a></li>
-						<li class="pull-right">
-							<div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
-								<i class="fa fa-calendar"></i>
-								<span></span>
-								<i class="fa fa-angle-down"></i>
-							</div>
-						</li>
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->
 				</div>
@@ -363,18 +337,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						$myq="SELECT * FROM hamesh where senderID='".$_SESSION['username']."'";
 						$hamesh=mysql_query($myq);
 						$mnr=mysql_num_rows($hamesh);
-						$hameshList = mysql_fetch_array($hamesh); 
+						
 						for($i = 0; $i < $mnr; $i++)
 						{
+							$hameshList = mysql_fetch_array($hamesh); 
 							echo
 							(
-							'<tr ');
-							echo('>
+							'<tr>
 							<td class="inbox-small-cells">
-								<input type="checkbox" id="khar" value="'.$hameshList['id'].'" class="mail-checkbox">
+								<input type="checkbox" id="checkbox" onclick="hameshListForward(this.id)" value="'.$hameshList['id'].'" class="mail-checkbox">
 							</td>
 							<td class="view-message">'.$hameshList['content'].'</td>
-							</tr>'
+							</tr>
+							</br>'
 							);		
 						}
 					
@@ -382,7 +357,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal" class="btn btn-default">لغو</button>
-					<button type="button" class="btn blue" name="hameshCompose" onclick=hameshValidation('forward') data-dismiss="modal" >ارجاع هامش</button>
+					<button type="button" class="btn blue" name="hameshCompose" onclick=hameshListForward() data-dismiss="modal" >ارجاع هامش</button>
 				</div>
 			</div>
 		</div>
@@ -465,11 +440,24 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<button class="btn blue" type="button" onclick=formValidation()><i class="fa fa-check"></i>ارسال</button>
 				<button class="btn" type="button" onclick="delCompose()">حذف</button>
 				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button>
-				<button class="btn" type="button">لیست هامشها</button>
+<!--				<button class="btn" type="button">لیست هامشها</button>  -->
 			</div>
 			</tr>
 		</form>
-
+	</div>
+</div>
+		<!-- BEGIN FOOTER -->
+	<div class="footer">
+		<div class="footer-inner">
+			2014 &copy; Office Automation by Mona Jalali and Faride Alemi.
+		</div>
+		<div class="footer-tools">
+			<span class="go-top">
+			<i class="fa fa-angle-up"></i>
+			</span>
+		</div>
+	</div>
+	<!-- END FOOTER -->
 	
 	<!--END PAGE CONTENT-->
 			
@@ -559,6 +547,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		function saveDraft(){
 			document.getElementById('form1').setAttribute('action','letter-compose.php?action=draft');
 			document.getElementById('form1').submit();
+		}
+		function hameshListForward()
+		{
+			
 		}
 	</script>
 	<script>//for google suggest-like TO field:

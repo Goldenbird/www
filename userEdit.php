@@ -53,16 +53,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
-<body class="page-header-fixed page-sidebar-closed" onload="notifer()">
+<body class="page-header-fixed" onload="notifer()">
 	<!-- BEGIN HEADER -->   
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<!-- BEGIN TOP NAVIGATION BAR -->
 		<div class="header-inner">
-			<!-- BEGIN LOGO -->  
-			<a class="navbar-brand" href="index.php">
-			<img src="assets/img/logo.png" alt="logo" class="img-responsive" />
-			</a>
-			<!-- END LOGO -->
 			<!-- BEGIN RESPONSIVE MENU TOGGLER --> 
 			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<img src="assets/img/menu-toggler.png" alt="" />
@@ -73,7 +68,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				
 				<!-- BEGIN INBOX DROPDOWN -->
 				<li class="dropdown" id="header_inbox_bar" onclick="notifer()">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" 	data-close-others="true"  >
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"  >
 					<i class="fa fa-envelope"></i>
 					<span class="badge" id="notifNum">0</span>
 					</a>
@@ -105,7 +100,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<!-- END USER LOGIN DROPDOWN -->
 			</ul>
 			<!-- END TOP NAVIGATION MENU -->
-		</div/>
+		</div>
 		<!-- END TOP NAVIGATION BAR -->
 	</div>
 	<!-- END HEADER -->
@@ -125,7 +120,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
 					<form class="sidebar-search" action="extra_search.html" method="POST">
 						<div class="form-container">
-						
+							
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
@@ -134,6 +129,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<a href="index.php">
 					<i class="fa fa-home"></i> 
 					<span class="title">داشبورد</span>
+					
 					</a>
 				</li>
 				<li>
@@ -154,8 +150,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
-				<li class="last open">
-					<a href="evaluation.php">
+				<li>
+					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
@@ -218,12 +214,17 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "-->" ;
 					}
 				?>
+				<li>
+					<a href="myEval.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">کارنامه ی ارزشیابی من</span>
+					</a>
+				</li>
 				<li class="start active">
 					<a href="userEdit.php">
 					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					<span class="selected"></span>
-					<span class="arrow"></span>
 					</a>
 				</li>
 			</ul>
@@ -232,28 +233,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
 		<div class="page-content">
-			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
-			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-							<h4 class="modal-title">Modal title</h4>
-						</div>
-						<div class="modal-body">
-							Widget settings form goes here
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn blue">Save changes</button>
-							<button type="button" class="btn default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 			<!-- BEGIN STYLE CUSTOMIZER -->
 			<div class="theme-panel hidden-xs hidden-sm">
 				<div class="toggler"></div>

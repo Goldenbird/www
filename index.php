@@ -60,11 +60,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<!-- BEGIN TOP NAVIGATION BAR -->
 		<div class="header-inner">
-			<!-- BEGIN LOGO -->  
-			<a class="navbar-brand" href="index.php">
-			<img src="assets/img/logo.png" alt="logo" class="img-responsive" />
-			</a>
-			<!-- END LOGO -->
 			<!-- BEGIN RESPONSIVE MENU TOGGLER --> 
 			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<img src="assets/img/menu-toggler.png" alt="" />
@@ -221,7 +216,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "-->" ;
 					}
 				?>
-				<li class="tooltips" data-placement="left" data-original-title="Frontend&nbsp;Theme For&nbsp;Metronic&nbsp;Admin">
+				<li>
+					<a href="myEval.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">کارنامه ی ارزشیابی من</span>
+					</a>
+				</li>
+				<li>
 					<a href="userEdit.php">
 					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>

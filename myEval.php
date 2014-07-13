@@ -1,12 +1,95 @@
-<?php
+<?php 
 error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
 include 'db_connect.php';
- if(isset($_SESSION['username']) == false)
-	header("Location: page_login.php charset=utf-8");
-else
-	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'"); 
+//if(isset($_SESSION['username']) == false) 
+//	header("Location: page_login.php");
+//else
+	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
+
+?>
+
+<?php
+$me = mysql_query("select * from users where id = '".$_SESSION['username']."'");
+$now=strtotime(date("Y-m-d H:i:s")."");
+//$countUser = mysql_num_rows($users);
+$totalWorkDone=0;//$countUser :tedad khunehaye array
+
+$WTI = 0;
+$RP = 0;
+$NP = 0;
+$EP = 0;
+$grade = 0;
+$m = 1;
+//calculate RP
+
+	$user = mysql_fetch_array($me);
+	//unread letters
+	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$_SESSION['username']."' AND recievedDate IS NULL"));
+	//tedad forward
+	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$_SESSION['username']."' AND parent <> 'NULL' "));
+	//tedad hamesh
+	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh where senderID='".$_SESSION['username']."'"));
+	//tedad error ha
+	$countError = $me['errorNum'];
+	//tedad kole nameha
+	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$_SESSION['username']."'"));
+	$totalWorkDone=$countHamesh+$countForward;
+	$totalWork=$countLetter;
+	
+	//محاسبه عملکرد واقعی
+	if($totalWork == 0)
+	{
+	
+	}
+	else
+	{
+		$RP = $totalWorkDone/$totalWork;
+	}
+	//calculate NP
+	$total = 0;
+	for($j=0; $j<$unread_num; $j++)
+	{
+		$data=mysql_fetch_array(mysql_query("select * from letters where recieverID='".$_SESSION['username']."' AND recievedDate IS NULL"));
+		$age=$now-strtotime($data['sentDate']);
+		$deadline=72;
+		if($data['priority']=="1")
+			$deadline=72;
+		else if($data['priority']=="2")
+			$deadline=24;
+		else if($data['priority']=="3")
+			$deadline=1;
+		$remainder=($deadline*3600)-$age;
+		if($remainder <= 0)
+			$total += 1;
+	}
+	if($totalWorkDone==0)
+	{
+
+	}
+	else
+	{
+		$NP = ($total+$countError)/$totalWorkDone;
+
+	}
+		
+	//calculate EP
+	$EP = $RP*(1-$NP);
+
+	//calculate WTI : karkarde user dar system
+	$userLog = mysql_query("select * from login where userID='".$_SESSION['username']."'");
+	$countLog = mysql_num_rows($userLog);
+
+	$WTI = 0;
+	for($k=0; $k<$countLog; $k++)
+	{	
+		$log = mysql_fetch_array($userLog);
+		$WTI += ($log['logout']-$log['login']);
+	}
+
+
+	$grade = $EP*$WTI;
 ?>
 <!DOCTYPE html>
 <!-- 
@@ -22,7 +105,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>سیستم اتوماسیون اداری | ایجاد گروه</title>
+	<title>Metronic | Visual Charts</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -33,20 +116,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="assets/plugins/bootstrap/css/bootstrap-rtl.min.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
 	<!-- END GLOBAL MANDATORY STYLES -->
-	<!-- BEGIN PAGE LEVEL STYLES -->
-	<link href="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5-rtl.css" rel="stylesheet" type="text/css" />
-	<link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
-	<!-- BEGIN:File Upload Plugin CSS files-->
-	<link href="assets/plugins/jquery-file-upload/css/jquery.fileupload-ui.css" rel="stylesheet" type="text/css" >
-	<!-- END:File Upload Plugin CSS files-->     
-	<!-- END PAGE LEVEL STYLES -->
 	<!-- BEGIN THEME STYLES --> 
 	<link href="assets/css/style-metronic-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/style-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/style-responsive-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/plugins-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/themes/default-rtl.css" rel="stylesheet" type="text/css" id="style_color"/>
-	<link href="assets/css/pages/inbox-rtl.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
@@ -144,11 +219,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">کارتابل</span>
 					</a>
 				</li>
-				<li class="start active">
+				<li>
 					<a href="createGroup.php">
 					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
-					<span class="selected"></span>
 					</a>
 				</li>
 				<li>
@@ -179,31 +253,31 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "<!--" ;
 					}
 				?>
-				<li class="last ">
+				<li>
 					<a href="createUser.php">
 					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
 					</a>
 				</li>
-				<li class="last ">
+				<li>
 					<a href="createOccupation.php">
 					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
-				<li class="last ">
+				<li>
 					<a href="showUsers.php">
 					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
 				</li>
-				<li class="last ">
+				<li>
 					<a href="showDepartments.php">
 					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
-				<li class="last ">
+				<li>
 					<a href="showOccupation.php">
 					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
@@ -215,10 +289,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "-->" ;
 					}
 				?>
-				<li>
+				<li class="start active">
 					<a href="myEval.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">کارنامه ی ارزشیابی من</span>
+					<span class="selected"></span>
 					</a>
 				</li>
 				<li>
@@ -284,34 +359,28 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-					<h3 class="page-title" >
-						<small></small>
-						ایجاد گروه 
+					<h3 class="page-title">
+						کارنامه
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
-						<li class="btn-group">
-							<button type="button" class="btn blue">
-							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جو مدرک</a><i class="fa fa-search"></i>
-							</button>
-						</li>
 						<li>
 							<i class="fa fa-home"></i>
-							<a href="index.php">خانه</a> 
-							<i class="fa fa-angle-left"></i> 
+							<a href="index.html">خانه</a> 
+							<i class="fa fa-angle-left"></i>
 						</li>
-						<li>
-							<i class="fa fa-group"></i>
-							<a href="#">ایجاد گروه</a>
-						</li>
+						<li><a href="#">کارنامه ارزشیابی من</a></li>
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->
 				</div>
 			</div>
-			<div class="tab-content">							
-				<div class="tab-pane  active" id="tab_2">
-					<div class="portlet box blue">
+			<!-- END PAGE HEADER-->
+			<!-- BEGIN CHART PORTLETS-->
+			<div class="row">
+				<div class="col-md-12">
+					<!-- BEGIN BASIC CHART PORTLET-->
+	<div class="portlet box blue">
 						<div class="portlet-title">
-							<div class="caption"><i class="fa fa-reorder"></i></div>
+							<div class="caption"><i class="fa fa-reorder"></i>نمودار ارزشیابی</div>
 							<div class="tools">
 								<a href="javascript:;" class="collapse"></a>
 								<a href="#portlet-config" data-toggle="modal" class="config"></a>
@@ -319,65 +388,21 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 								<a href="javascript:;" class="remove"></a>
 							</div>
 						</div>
-						<div class="portlet-body form">
-							<!-- BEGIN FORM-->
-							<form enctype="multipart/form-data" id="formCreateGroup" method="post" action="cGroup.php?action=create" class="form-horizontal">
-								<div class="form-body">
-									<h3 class="form-section">ایجاد گروه</h3>
-									<div class="row">
-										<div class="col-md-9">
-											<div id="divGname" class="form-group">
-												<label class="control-label col-md-3">نام گروه</label>
-												<div class="col-md-9">
-													<input id="gName" name="gName" type="text" class="form-control" onchange=chGname()>
-													<span id="spanGname" class="help-block"></span>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="row">
-										<div class="col-md-9">
-											<div id="" class="form-group">
-												<label  class="col-md-3 control-label">انتخاب اعضا</label>
-												<div class="col-md-9">
-													<select multiple class="form-control" id="members" name="members[]">
-														<?php 
-														include 'db_connect.php';
-														$quer = mysql_query("SELECT users.id, users.name, users.familyName, occupation.name, departments.name
-																				FROM users, occupation, departments
-																				WHERE users.occupationID = occupation.id
-																				AND users.departmentID = departments.id
-																				AND users.id <> ".$_SESSION['username']);
-														for($i = 0; $i < mysql_num_rows($quer); $i++)
-														{
-															$data = mysql_fetch_array($quer);
-															echo ('<option value="'.$data['0'].'">'.$data['1']." ".$data['2']." ".$data['3']." ".$data['4'].'</option>');
-														}
-														?>
-													</select>
-												</div>
-											</div>
-										</div>
-									</div>									
-									<div class="form-actions fluid">
-										<div class="row">
-											<div class="col-md-9">
-												<div class="col-md-offset-3 col-md-9">
-													<button type="button" class="btn blue" onclick=checkForm()>ایجاد</button>
-													<button type="button" class="btn default" onclick="window.location.href='/index.php'">لغو</button>                              
-												</div>
-											</div>
-										</div>
-									</div>
-							</form>
-							<!-- END FORM-->                
+						<div class="portlet-body">
+							<div id="chart_1_1_legendPlaceholder"></div>
+							<div id="chart_1_1" class="chart" style="padding: 0px; position: relative;">
+							<canvas class="flot-base" width="976" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 976px; height: 300px;"></canvas><div class="flot-text" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; font-size: smaller; color: rgb(84, 84, 84);">
+							<div class="flot-x-axis flot-x1-axis xAxis x1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 74px; text-align: center;">2</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 169px; text-align: center;">4</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 264px; text-align: center;">6</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 358px; text-align: center;">8</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 449px; text-align: center;">10</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 544px; text-align: center;">12</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 638px; text-align: center;">14</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 733px; text-align: center;">16</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 827px; text-align: center;">18</div><div class="flot-tick-label tickLabel" style="position: absolute; max-width: 81px; top: 278px; left: 922px; text-align: center;">20</div></div><div class="flot-y-axis flot-y1-axis yAxis y1Axis" style="position: absolute; top: 0px; left: 0px; bottom: 0px; right: 0px; display: block;"><div class="flot-tick-label tickLabel" style="position: absolute; top: 263px; left: 18px; text-align: right;">0</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 210px; left: 10px; text-align: right;">50</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 158px; left: 2px; text-align: right;">100</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 105px; left: 2px; text-align: right;">150</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 53px; left: 2px; text-align: right;">200</div><div class="flot-tick-label tickLabel" style="position: absolute; top: 0px; left: 2px; text-align: right;">250</div></div></div><canvas class="flot-overlay" width="976" height="300" style="direction: ltr; position: absolute; left: 0px; top: 0px; width: 976px; height: 300px;"></canvas></div>
 						</div>
 					</div>
-				</div>
-			</div>
+					<!-- END BASIC CHART PORTLET-->    
+			<!-- END PAGE CONTENT-->    
 		</div>
-	</div>		
-	<!-- BEGIN FOOTER -->
+		<!-- END PAGE --> 
+	</div>
+	<!-- END CONTAINER -->
+</div>
+		<!-- BEGIN FOOTER -->
 	<div class="footer">
 		<div class="footer-inner">
 			2014 &copy; Office Automation by Mona Jalali and Faride Alemi.
@@ -396,7 +421,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<script src="assets/plugins/excanvas.min.js"></script> 
 	<![endif]-->   
 	<script src="assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
-	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>    
+	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script> 
 	<script src="assets/plugins/bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/bootstrap-hover-dropdown/twitter-bootstrap-hover-dropdown.min.js" type="text/javascript" ></script>
 	<script src="assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js" type="text/javascript"></script>
@@ -404,84 +429,29 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<script src="assets/plugins/jquery.cookie.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/uniform/jquery.uniform.min.js" type="text/javascript" ></script>
 	<!-- END CORE PLUGINS -->
-	<!-- BEGIN: Page level plugins -->
-	<script src="assets/plugins/fancybox/source/jquery.fancybox.pack.js" type="text/javascript" ></script>
-	<script src="assets/plugins/bootstrap-wysihtml5/wysihtml5-0.3.0.js" type="text/javascript" ></script> 
-	<script src="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5.js" type="text/javascript" ></script>
-	<!-- BEGIN:File Upload Plugin JS files-->
-	<!-- The jQuery UI widget factory, can be omitted if jQuery UI is already included -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/jquery.ui.widget.js"></script>
-	<!-- The Templates plugin is included to render the upload/download listings -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/tmpl.min.js"></script>
-	<!-- The Load Image plugin is included for the preview images and image resizing functionality -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/load-image.min.js"></script>
-	<!-- The Canvas to Blob plugin is included for image resizing functionality -->
-	<script src="assets/plugins/jquery-file-upload/js/vendor/canvas-to-blob.min.js"></script>
-	<!-- The Iframe Transport is required for browsers without support for XHR file uploads -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.iframe-transport.js"></script>
-	<!-- The basic File Upload plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload.js"></script>
-	<!-- The File Upload processing plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-process.js"></script>
-	<!-- The File Upload image preview & resize plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-image.js"></script>
-	<!-- The File Upload audio preview plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-audio.js"></script>
-	<!-- The File Upload video preview plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-video.js"></script>
-	<!-- The File Upload validation plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-validate.js"></script>
-	<!-- The File Upload user interface plugin -->
-	<script src="assets/plugins/jquery-file-upload/js/jquery.fileupload-ui.js"></script>
-	<!-- The main application script -->
-	<!-- The XDomainRequest Transport is included for cross-domain file deletion for IE 8 and IE 9 -->
-	<!--[if (gte IE 8)&(lt IE 10)]>
-	<script src="assets/plugins/jquery-file-upload/js/cors/jquery.xdr-transport.js"></script>
-	<![endif]-->
-	<!-- END:File Upload Plugin JS files-->
-	<!-- END: Page level plugins -->
-	<script src="assets/scripts/app.js"></script>      
-	<script src="assets/scripts/inbox.js"></script>   
-<script src="assets/scripts/myplugins.js" type="text/javascript"></script>	
+	<!-- BEGIN PAGE LEVEL PLUGINS -->
+	<script src="assets/plugins/flot/jquery.flot.js"></script>
+	<script src="assets/plugins/flot/jquery.flot.resize.js"></script>
+	<script src="assets/plugins/flot/jquery.flot.pie.js"></script>
+	<script src="assets/plugins/flot/jquery.flot.stack.js"></script>
+	<script src="assets/plugins/flot/jquery.flot.crosshair.js"></script>
+	<!-- END PAGE LEVEL PLUGINS -->
+	<!-- BEGIN PAGE LEVEL SCRIPTS -->
+	<script src="assets/scripts/app.js"></script>
+	<script src="assets/scripts/charts.js"></script>      
 	<script>
+	var data1=[<?php
+		echo '['.$m.','.($grade).']';
+	?>];
 		jQuery(document).ready(function() {       
 		   // initiate layout and plugins
 		   App.init();
-		   Inbox.init();
+		   Charts.init();
+		   //Charts.initCharts();  
+		   Charts.initBarCharts();
 		});
 	</script>
-	<script>
-		var gName = document.getElementById('gName');
-		var members = document.getElementById('members');
-		function chGname()
-		{
-			if(gNmae.value == "" )
-			{
-				document.getElementById('divGname').setAttribute('class', 'form-group has-error');
-				document.getElementById('spanGname').innerHTML = "نام گروه نمیتواند خالی باشد";
-			}
-			else
-			{
-				document.getElementById('divGname').setAttribute('class', 'form-group');
-				document.getElementById('spanGname').innerHTML = "";
-			}
-		}
-		function checkForm()
-		{
-			var cnt = 0;
-			for(var i = 0; i < members.options.length; i++)
-				if(members.options[i].selected)
-					cnt++;
-			if(cnt == 0)
-				alert("هیچ عضوی انتخاب نشده است");
-			else if(cnt == 1)
-				alert("حداقل دو عضو باید انتخاب شود");
-			else if(gName.value == ""){
-				document.getElementById('divGname').setAttribute('class', 'form-group has-error');
-				document.getElementById('spanGname').innerHTML = "نام گروه نمیتواند خالی باشد";
-			}
-			else
-				document.getElementById('formCreateGroup').submit();
-		}
-	</script>	
-	<!-- END JAVASCRIPTS -->
+	<!-- END PAGE LEVEL SCRIPTS -->
+</body>
+<!-- END BODY -->
+</html>

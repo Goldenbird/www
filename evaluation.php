@@ -11,6 +11,8 @@ else
 ?>
 
 <?php
+$startDate=$_POST['start'];
+$endDate=$_POST['end'];
 $users = mysql_query("select * from users");
 $now=strtotime(date("Y-m-d H:i:s")."");
 $countUser = mysql_num_rows($users);
@@ -27,15 +29,15 @@ for($i=0; $i<$countUser; $i++)
 	//each normal user
 	$user = mysql_fetch_array($users);
 	//unread letters
-	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL"));
+	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
 	//tedad forward
-	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND parent <> 'NULL' "));
+	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND parent <> 'NULL' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
 	//tedad hamesh
-	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh where senderID='".$user['id']."'"));
+	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh INNER JOIN letterhamesh ON hamesh.id=letterhamesh.hameshID INNER JOIN letters ON letterhamesh.letterID = letters.id where letters.senderID='".$user['id']."' AND letters.sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
 	//tedad error ha
 	$countError = $user['errorNum'];
 	//tedad kole nameha
-	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."'"));
+	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
 	$totalWorkDone[$i]=$countHamesh+$countForward;
 	$totalWork=$countLetter;
 	
@@ -52,7 +54,7 @@ for($i=0; $i<$countUser; $i++)
 	$total = 0;
 	for($j=0; $j<$unread_num; $j++)
 	{
-		$data=mysql_fetch_array(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL"));
+		$data=mysql_fetch_array(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
 		$age=$now-strtotime($data['sentDate']);
 		$deadline=72;
 		if($data['priority']=="1")
@@ -79,7 +81,7 @@ for($i=0; $i<$countUser; $i++)
 	$EP = $RP*(1-$NP);
 
 	//calculate WTI : karkarde user dar system
-	$userLog = mysql_query("select * from login where userID='".$user['id']."'");
+	$userLog = mysql_query("select * from login where userID='".$user['id']."' AND login BETWEEN '".$startDate."' AND '".$endDate."' AND logout BETWEEN '".$startDate."' AND '".$endDate."'");
 	$countLog = mysql_num_rows($userLog);
 
 	$WTI[$i] = 0;
@@ -108,7 +110,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>Metronic | Visual Charts</title>
+	<title>سیستم اتوماسیون اداری | کارنامه ارزشیابی</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -136,11 +138,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<div class="header navbar navbar-inverse navbar-fixed-top">
 		<!-- BEGIN TOP NAVIGATION BAR -->
 		<div class="header-inner">
-			<!-- BEGIN LOGO -->  
-			<a class="navbar-brand" href="index.php">
-			<img src="assets/img/logo.png" alt="logo" class="img-responsive" />
-			</a>
-			<!-- END LOGO -->
 			<!-- BEGIN RESPONSIVE MENU TOGGLER --> 
 			<a href="javascript:;" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
 			<img src="assets/img/menu-toggler.png" alt="" />
@@ -151,7 +148,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				
 				<!-- BEGIN INBOX DROPDOWN -->
 				<li class="dropdown" id="header_inbox_bar" onclick="notifer()">
-					<a href="#" class="dropdown-toggle" data-toggle="dropdown" 	data-close-others="true"  >
+					<a href="#" class="dropdown-toggle" data-toggle="dropdown" data-close-others="true"  >
 					<i class="fa fa-envelope"></i>
 					<span class="badge" id="notifNum">0</span>
 					</a>
@@ -203,46 +200,43 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
 					<form class="sidebar-search" action="extra_search.html" method="POST">
 						<div class="form-container">
-							<div class="input-box">
-								<a href="javascript:;" class="remove"></a>
-								<input type="text" placeholder="جست و جو"/>
-								<input type="button" class="submit" value=" "/>
-							</div>
+							
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
 				</li>
-				<li class="start active">
+				<li>
 					<a href="index.php">
 					<i class="fa fa-home"></i> 
 					<span class="title">داشبورد</span>
-					<span class="selected"></span>
+					
 					</a>
 				</li>
 				<li>
 					<a href="compose.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-pencil"></i> 
 					<span class="title">ایجاد نامه</span>
 					</a>
 				</li>
 				<li>
-					<a href="createGroup.php">
-					<i class="fa fa-cogs"></i> 
-					<span class="title">ایجاد گروه</span>
-					</a>
-				</li>
-				<li>
 					<a href="inbox.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-envelope"></i> 
 					<span class="title">کارتابل</span>
 					</a>
 				</li>
-				<li class="last open">
-					<a href="evaluation.php">
+				<li>
+					<a href="createGroup.php">
+					<i class="fa fa-group"></i> 
+					<span class="title">ایجاد گروه</span>
+					</a>
+				</li>
+				<li class="start active">
+					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
+					<span class="selected"></span>
 					</a>
-					<ul class="sub-menu">
+					<!--<ul class="sub-menu">
 						<li>
 						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
 						</li>
@@ -257,7 +251,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							</li>
 						</ul>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
@@ -267,31 +261,31 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li class="last ">
 					<a href="createUser.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="createOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showUsers.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showDepartments.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
@@ -301,9 +295,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "-->" ;
 					}
 				?>
-				<li class="tooltips" data-placement="left" data-original-title="Frontend&nbsp;Theme For&nbsp;Metronic&nbsp;Admin">
+				<li>
+					<a href="myEval.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">کارنامه ی ارزشیابی من</span>
+					</a>
+				</li>
+				<li>
 					<a href="userEdit.php">
-					<i class="fa fa-gift"></i> 
+					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					</a>
 				</li>
@@ -313,28 +313,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
 		<div class="page-content">
-			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
-			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-				<div class="modal-dialog">
-					<div class="modal-content">
-						<div class="modal-header">
-							<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
-							<h4 class="modal-title">Modal title</h4>
-						</div>
-						<div class="modal-body">
-							Widget settings form goes here
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn blue">Save changes</button>
-							<button type="button" class="btn default" data-dismiss="modal">Close</button>
-						</div>
-					</div>
-					<!-- /.modal-content -->
-				</div>
-				<!-- /.modal-dialog -->
-			</div>
-			<!-- /.modal -->
-			<!-- END SAMPLE PORTLET CONFIGURATION MODAL FORM-->
 			<!-- BEGIN STYLE CUSTOMIZER -->
 			<div class="theme-panel hidden-xs hidden-sm">
 				<div class="toggler"></div>
@@ -387,28 +365,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title">
-						<small>visual charts & graphs</small>
-						Visual Charts
+						نمودار ارزیابی کارمندان
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
-						<li class="btn-group">
-							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-							<span>Actions</span> <i class="fa fa-angle-down"></i>
-							</button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a href="#">Action</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</li>
 						<li>
 							<i class="fa fa-home"></i>
-							<a href="index.html">Home</a> 
+							<a href="index.html">خانه</a> 
 							<i class="fa fa-angle-left"></i>
 						</li>
-						<li><a href="#">Visual Charts</a></li>
+						<li><a href="#">نمودار ارزیابی کارمندان</a></li>
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->
 				</div>
@@ -420,7 +385,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN BASIC CHART PORTLET-->
 	<div class="portlet box blue">
 						<div class="portlet-title">
-							<div class="caption"><i class="fa fa-reorder"></i>Bar Chart</div>
+							<div class="caption"><i class="fa fa-reorder"></i>نمودار ارزیابی</div>
 							<div class="tools">
 								<a href="javascript:;" class="collapse"></a>
 								<a href="#portlet-config" data-toggle="modal" class="config"></a>
@@ -444,7 +409,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- BEGIN FOOTER -->
 	<div class="footer">
 		<div class="footer-inner">
-			2013 &copy; Metronic by keenthemes.
+			2014 &copy; Office Automation by Mona Jalali and Faride Alemi.
 		</div>
 		<div class="footer-tools">
 			<span class="go-top">
