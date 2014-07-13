@@ -399,63 +399,23 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							<div class="desc">کارنامه ارزشیابی من</div>
 						</div>
 						<a class="more" href="evaluation.php">
-						View more <i class="m-icon-swapright m-icon-white"></i>
+						مشاهده کارنامه ارزشیابی <i class="m-icon-swapright m-icon-white"></i>
 						</a>                 
 					</div>
 				</div>
 			</div>
 			<!-- END DASHBOARD STATS -->
 			<div class="clearfix"></div>
-			<div class="row"><!-- اولین ردیف-->
-				<div class="col-md-6 col-sm-6"> <!-- feeds -->
-					<!-- BEGIN PORTLET-->
-					<div class="portlet paddingless">
-						<div class="portlet-body">
-							<!--BEGIN TABS-->
-							<div class="tabbable tabbable-custom">
-								<ul class="nav nav-tabs">
-							<!--END TABS-->
-						</div>
-					</div>
-					<!-- END PORTLET-->
-				</div>
-				<div class="col-md-6 col-sm-6"> <!-- site visits -->	
-				</div>
-			</div>
-			<div class="clearfix"></div>
 			<!-- آخرین نامه ها -->
 			<?php
-			$str="SELECT * FROM letters WHERE recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL";
+			$str="SELECT * FROM letters WHERE recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL ORDER BY sentDate DESC";
 			$letters=mysql_query($str);
 			echo ('
 			<div class="row ">
-				<div class="col-md-6 col-sm-6" style="display: block; position: relative; top:55%; left:-25%">
+				<div class="col-md-6 col-sm-6" >
 					<div class="portlet box green tasks-widget">
 						<div class="portlet-title">
 							<div class="caption"><i class="fa fa-check"></i>آخرین نامه ها</div>
-							<div class="tools">
-								<a href="#portlet-config" data-toggle="modal" class="config"></a>
-								<a href="" class="reload"></a>
-							</div>
-							<div class="actions">
-								<div class="btn-group">
-									<a class="btn default btn-xs" href="#" data-toggle="dropdown" data-hover="dropdown" data-close-others="true">
-									More
-									<i class="fa fa-angle-down"></i>
-									</a>
-									<ul class="dropdown-menu pull-right">
-										<li><a href="#"><i class="i"></i> All Project</a></li>
-										<li class="divider"></li>
-										<li><a href="#">AirAsia</a></li>
-										<li><a href="#">Cruise</a></li>
-										<li><a href="#">HSBC</a></li>
-										<li class="divider"></li>
-										<li><a href="#">Pending <span class="badge badge-important">4</span></a></li>
-										<li><a href="#">Completed <span class="badge badge-success">12</span></a></li>
-										<li><a href="#">Overdue <span class="badge badge-warning">9</span></a></li>
-									</ul>
-								</div>
-							</div>
 						</div>
 						<div class="portlet-body">
 							<div class="task-content">
@@ -490,20 +450,100 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									<!-- END START TASK LIST -->
 								</div>
 							</div>
-							<div class="task-footer">
-								<span class="pull-right">
-								<a href="#">See All Tasks <i class="m-icon-swapright m-icon-gray"></i></a> &nbsp;
-								</span>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-6 col-sm-6" >
+					<div class="portlet box blue tasks-widget">
+						<div class="portlet-title">
+							<div class="caption"><i class="fa fa-check"></i>نامه های خوانده نشده</div>
+						</div>
+						<div class="portlet-body">
+							<div class="task-content">
+								<div class="scroller" style="height: 305px;" data-always-visible="1" data-rail-visible1="1">
+									<!-- START TASK LIST -->
+									<ul class="task-list">');
+									$j1=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت اقدام' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت اقدام">
+												<span class="task-title-sp">جهت اقدام</span>
+												<span>'.$j1[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j2=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت اطلاع' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li');echo(($i==$letterNum)?('class="last-line"'):(''));echo('>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت اطلاع">
+												<span class="task-title-sp">جهت اطلاع</span>
+												<span>'.$j2[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j3=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت امضا' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت امضا">
+												<span class="task-title-sp">جهت اقدام</span>
+												<span>'.$j3[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j4=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت اقدام فوری' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت اقدام فوری">
+												<span class="task-title-sp">جهت اقدام فوری</span>
+												<span>'.$j4[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j5=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت بررسی و اقدام لازم' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت بررسی و اقدام لازم">
+												<span class="task-title-sp">جهت بررسی و اقدام لازم</span>
+												<span>'.$j5[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j6=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت صدور دستور لازم' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li>
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت صدور دستور لازم">
+												<span class="task-title-sp">جهت صدور دستور لازم</span>
+												<span>'.$j6[0].'</span>
+												</a>
+											</div>
+										</li>');
+									$j7=mysql_fetch_array(mysql_query("SELECT COUNT(*) FROM letters WHERE actionType='جهت استحضار' AND recieverID='".$_SESSION['username']."' AND trash='0' AND recievedDate is NULL"));
+									echo('
+										<li class="last-line">
+											<div class="task-title">
+												<a style="text-decoration:none" href="inbox.php?actionType=جهت استحضار">
+												<span class="task-title-sp">جهت استحضار</span>
+												<span>'.$j7[0].'</span>
+												</a>
+											</div>
+										</li>');
+								echo('		
+									</ul>
+									<!-- END START TASK LIST -->
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				
 			</div>');
 			?>
 			<!-- آخرین نامه ها -->
-			<div class="clearfix"></div>			
-			<div class="clearfix"></div>
 			<div class="clearfix"></div>
 		</div>
 		<!-- END PAGE -->

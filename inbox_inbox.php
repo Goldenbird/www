@@ -32,9 +32,10 @@ else
 					if(isset($_GET['offset']))
 						$ooffsseett=$_GET['offset'];
 					$myq="SELECT * FROM letters WHERE recieverID='".$username."' AND trash='0' ";
-					if(isset($_GET['por']))
-						if($_GET['por']>0)
+					if(isset($_GET['por']) && $_GET['por']>0)
 							$myq = $myq." AND priority='".$_GET['por']."'";
+					if(isset($_GET['actionType']) && $_GET['actionType']>0)
+							$myq = $myq." AND actionType='".$_GET['actionType']."'";
 					$myq = $myq."LIMIT 5 offset ".$ooffsseett*5;
 					$letter=mysql_query($myq);
 					$mnr=mysql_num_rows($letter);

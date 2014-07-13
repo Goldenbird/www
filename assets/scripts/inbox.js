@@ -37,7 +37,7 @@ var Inbox = function () {
     }	
 	
 	
-    var loadInbox = function (el, name,por,page) {
+    var loadInbox = function (el, name,por,page, actionType) {
         var title = $('.inbox-nav > li.' + name + ' a').attr('data-title');
         loading.show();
         content.html('');
@@ -45,6 +45,8 @@ var Inbox = function () {
 		var url="inbox_inbox.php?";
 		if(por>0)
 			url+="por="+por+"&";
+		if(actionType!="")
+			url+="actionType="+actionType+"&";
 		if(page>0)
 			url+="offset="+page;
         $.ajax({
@@ -359,7 +361,7 @@ var Inbox = function () {
 
             // handle inbox listing
             $('.inbox-nav > li.inbox > a').click(function () {
-                loadInbox($(this), 'inbox',0,page_num);
+                loadInbox($(this), 'inbox',0, 'جهت اقدام',page_num);
             });
 
             // handle sent listing

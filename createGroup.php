@@ -410,5 +410,5 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			else
 				document.getElementById('formCreateGroup').submit();
 		}
-		
+	</script>	
 	<!-- END JAVASCRIPTS -->

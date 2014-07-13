@@ -28,11 +28,13 @@ if($_GET['action'] == "create")
 	//echo $quer;
 	if(mysql_affected_rows() == 1) 
 	{
-		header("Location: createUser.php?result=success");
+		//header("Location: createUser.php?result=success");
+		header("Location: alertResult.php?result=1");
 	}
 	else
 	{
-		header("Location: createUser.php?result=fail");
+		//header("Location: createUser.php?result=fail");
+		header("Location: alertResult.php?result=0");
 	}
 }
 ?>
