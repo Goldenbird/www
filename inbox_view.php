@@ -34,11 +34,19 @@ if(isset($_GET['letter']) == false)
 	</div>
 </div>
 <div class="inbox-view">');
-		echo (' <td class="view-message ">'.$letter['context'].'</td> ');
-		$quer = mysql_query("UPDATE letters SET recievedDate='".date("Y-m-d H:i:s")."' WHERE id='".$letter['id']."' AND recievedDate is NULL");
-		/*if(mysql_affected_rows() == 1)
-			echo("updated recieved date :)"."</br>");*/
-	//name ha vase inke delete konim
+	$allHamesh = mysql_query("SELECT * FROM (letterhamesh INNER JOIN hamesh ON letterhamesh.hameshID=hamesh.id) WHERE letterhamesh.letterID='".$letter['id']."'");
+	$countHamesh = mysql_num_rows($allHamesh);
+	echo (' <td class="view-message ">'.$letter['context'].'</td> ');
+	echo '</br>';
+	echo '................................................................................';
+	echo '</br>';
+	for($i=0; $i<$countHamesh; $i++)
+	{
+		$hamesh=mysql_fetch_array($allHamesh);
+		echo '<p align="right"> هامش شماره'.$i.':'.$hamesh['content'].'</p>';
+		echo '</br>';
+	}
+	$quer = mysql_query("UPDATE letters SET recievedDate='".date("Y-m-d H:i:s")."' WHERE id='".$letter['id']."' AND recievedDate is NULL");
 ?>
 <head>
 	<meta charset="utf-8" />
@@ -145,7 +153,6 @@ echo('
 					data: 
 					{
 						"letter_id":<?php echo $letter['id']?>,
-						//"letter_content":<?php echo $letter['context']?>,
 						"hamesh":content
 					},
 					success:function(result){
