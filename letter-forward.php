@@ -18,7 +18,7 @@ if($_GET['action'] == "forward")
 	$parent=$_GET['parID'];
 	$composit_to = $_POST['realTo'];
 	$subject = $_POST['subject'];
-	$private = $_POST['optionsRadios'];
+	$private = $_POST['private'];
 	$actionType = $_POST['actionType'];
 	$content = $_POST['message'];
 	$sentDate = date("Y-m-d H:i:s");
@@ -55,7 +55,7 @@ if($_GET['action'] == "forward")
 	$tos=explode("|",$composit_to,1000);
 	$quer=mysql_query("select * from letters where id='".$parent."'");
 	$mfa= mysql_fetch_array($quer);
-	$content=$content."--------------------------------".$mfa['content'];
+	$content=$content."--------------------------------".$mfa['context'];
 	foreach($tos as $x)
 	{
 		$to="".$x;
@@ -65,7 +65,7 @@ if($_GET['action'] == "forward")
 		{
 			$gid = substr($to, 1);//to="G4"
 			$qu=mysql_query("SELECT memberID FROM membership WHERE groupID ='".$gid."'");
-			$query="insert into letters (id,senderID,recieverID,sentDate,recievedDate,subject,context,private,actionType, attachment) values";
+			$query="insert into letters (id,senderID,recieverID,sentDate,recievedDate,subject,context,private,actionType, attachment,parent) values";
 			for($i=0; $i<mysql_num_rows($qu); $i++)
 			{
 				$data = mysql_fetch_array($qu);

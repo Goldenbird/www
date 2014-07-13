@@ -145,19 +145,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</li>
 				<li>
 					<a href="compose.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-pencil"></i> 
 					<span class="title">ایجاد نامه</span>
 					</a>
 				</li>
 				<li>
 					<a href="createGroup.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li>
 					<a href="inbox.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-envelope"></i> 
 					<span class="title">کارتابل</span>
 					</a>
 				</li>
@@ -191,31 +191,31 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li class="last ">
 					<a href="createUser.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="createOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showUsers.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showDepartments.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
@@ -227,7 +227,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li class="tooltips" data-placement="left" data-original-title="Frontend&nbsp;Theme For&nbsp;Metronic&nbsp;Admin">
 					<a href="userEdit.php">
-					<i class="fa fa-gift"></i> 
+					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					</a>
 				</li>
@@ -324,11 +324,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						</li>
 						<li><a href="#">داشبورد</a></li>
 						<li class="pull-right">
-							<div id="dashboard-report-range" class="dashboard-date-range tooltips" data-placement="top" data-original-title="Change dashboard date range">
-								<i class="fa fa-calendar"></i>
-								<span></span>
-								<i class="fa fa-angle-down"></i>
-							</div>
+							
 						</li>
 					</ul>
 					<!-- END PAGE TITLE & BREADCRUMB-->

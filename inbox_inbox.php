@@ -49,7 +49,7 @@ else
 					}
 					if(isset($_GET['unread']))
 							$myq = $myq." AND recievedDate is NULL ";
-					//$myq = $myq."LIMIT 5 offset ".$ooffsseett*5;
+					$myq = $myq." ORDER BY sentDate DESC";
 					//echo $myq;
 					$letter=mysql_query($myq);
 					$mnr=mysql_num_rows($letter);

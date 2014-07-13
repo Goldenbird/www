@@ -1,7 +1,8 @@
 <?php
 session_name("oa");
 session_start();
- if(isset($_SESSION['username']) == false)
+include 'db_connect.php';
+if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
@@ -48,51 +49,40 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <body>
 	<div class="col-md-6" style="position:fixed;top:80px; left:25%"">
 					<!-- BEGIN SAMPLE TABLE PORTLET-->
-					<div class="portlet box blue">
+					<div class="portlet box purple">
 						<div class="portlet-title">
-							<div class="caption"><i class="fa fa-comments"></i>گردش نامه</div>
-							<div class="tools">
-								<a href="javascript:;" class="collapse"></a>
-								<a href="#portlet-config" data-toggle="modal" class="config"></a>
-								<a href="javascript:;" class="reload"></a>
-								<a href="javascript:;" class="remove"></a>
-							</div>
+							<div class="caption"><i class="fa fa-cogs"></i>گردش نامه</div>
 						</div>
 						<div class="portlet-body">
-							<div class="table-responsive">
-								<table class="table table-bordered table-hover">
+							<div class="table-scrollable">
+								<table class="table table-striped table-bordered table-hover">
 									<tbody>
 										<tr>
-											<td>active</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-										</tr>
-										<tr>
-											<td>success</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-										</tr>
-										<tr>
-											<td>warning</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-										</tr>
-										<tr>
-											<td>danger</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
-											<td>Column heading</td>
+									<?php
+										$i = 0;
+										$quer = array();
+										$let = array();
+										echo('<td>"'.$_GET['letter'].'"</td>
+											  <td><i class="fa fa-arrow-left"></i></td>');
+										$quer[$i]=mysql_query("SELECT parent FROM letters WHERE id='".$_GET['letter']."' HAVING (parent IS NOT NULL)");
+										while(mysql_num_rows($quer[$i]) > 0)
+										{
+											$let=mysql_fetch_array($quer[$i]);
+											//echo $let['parent'];
+											echo('<td>"'.$let['parent'].'"</td>
+												  <td><i class="fa fa-arrow-left"></i></td>');
+											$i++;
+											$quer[$i]=mysql_query("SELECT parent FROM letters WHERE id='".$let['parent']."' HAVING (parent IS NOT NULL)");
+										}
+									?>
 										</tr>
 									</tbody>
 								</table>
 							</div>
 						</div>
 					</div>
-					<!-- END SAMPLE TABLE PORTLET-->
-				</div>
+					
+	</div>
 				
 	<script src="assets/plugins/jquery-1.10.2.min.js" type="text/javascript"></script>
 	<script src="assets/plugins/jquery-migrate-1.2.1.min.js" type="text/javascript"></script>    

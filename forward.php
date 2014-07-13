@@ -615,9 +615,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		}
 </script>
 	<script>
-		function formValidation(){
+				function formValidation(){
 			
-			var to = document.getElementById('to');
+			var to = document.getElementById('realTo');
 			var subject = document.getElementById('subject');
 			var actionType = document.getElementById('actionType');
 			var content = document.getElementById('context');
@@ -631,8 +631,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				alert("متن نامه خالی است!");
 			else
 			{
+				document.getElementById('form1').setAttribute('action','letter-forward.php?action=forward&parID=<?php echo $letterIDs;?>');
 				document.getElementById('form1').submit();
 			}
+		}
+		function saveDraft(){
+			document.getElementById('form1').setAttribute('action','letter-compose.php?action=draft');
+			document.getElementById('form1').submit();
 		}
 	</script>
 	<script>
@@ -734,10 +739,5 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	{
 		window.location.href='inbox.php';
 	}
-	function saveDraft(){
-			document.getElementById('form1').setAttribute('action','letter-compose.php?action=draft');
-			document.getElementById('form1').submit();
-			//window.location.href="letter-compose.php?action=draft";
-		}
 	</script>
 	<!-- END JAVASCRIPTS -->
