@@ -549,12 +549,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			var kols=document.getElementById('fakeToSender').value.split('|');
 			var str = escape(kols[kols.length-1]);
 			req1.open("GET", 'searchSuggest.php?search=' + str, true);
-			req1.onreadystatechange = handleSearchSuggest; 
+			req1.onreadystatechange = handleSearchSuggestS; 
 			req1.send(null);
 		}		
 	}
 	//Called when the AJAX response is returned.
-	function handleSearchSuggest() {
+	function handleSearchSuggestS() {
 		if (req1.readyState == 4) {
 			var ss = document.getElementById('search_suggest')
 			ss.innerHTML = '';
@@ -562,7 +562,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			for(i=0; i < str.length - 1; i++) {
 				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
 				suggest += 'onmouseout="javascript:suggestOut(this);" ';
-				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTos(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'onclick="javascript:setSearchS(this.innerHTML);addTos(\'' + str[i].split('$')[0]+ '\');" ';
 				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
 				ss.innerHTML += suggest;
 				//ss.innerHTML += str[i].split('$')[1];
@@ -582,7 +582,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		div_value.className = 'suggest_link';
 	}
 	//Click function
-	function setSearch(value) {
+	function setSearchS(value) {
 		var tmp = document.getElementById('fakeToSender').value.trim();
 		var ind=tmp.lastIndexOf("|");
 		if(ind>0)
@@ -602,12 +602,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			var kolr=document.getElementById('fakeToReciever').value.split('|');
 			var str = escape(kolr[kolr.length-1]);
 			req2.open("GET", 'searchSuggest.php?search=' + str, true);
-			req2.onreadystatechange = handleSearchSuggest; 
+			req2.onreadystatechange = handleSearchSuggestR; 
 			req2.send(null);
 		}		
 	}
 	//Called when the AJAX response is returned.
-	function handleSearchSuggest() {
+	function handleSearchSuggestR() {
 		if (req2.readyState == 4) {
 			var ss = document.getElementById('search_suggest')
 			ss.innerHTML = '';
@@ -615,7 +615,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			for(i=0; i < str.length - 1; i++) {
 				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
 				suggest += 'onmouseout="javascript:suggestOut(this);" ';
-				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTor(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'onclick="javascript:setSearchR(this.innerHTML);addTor(\'' + str[i].split('$')[0]+ '\');" ';
 				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
 				ss.innerHTML += suggest;
 				//ss.innerHTML += str[i].split('$')[1];
@@ -627,7 +627,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		document.getElementById('realToReciever').value += value+"|";
 	}
 	//Click function
-	function setSearch(value) {
+	function setSearchR(value) {
 		var tmp = document.getElementById('fakeToReciever').value.trim();
 		var ind=tmp.lastIndexOf("|");
 		if(ind>0)
