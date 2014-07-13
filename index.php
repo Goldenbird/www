@@ -157,8 +157,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
-				<li class="last open">
-					<a href="evaluation.php">
+				<li>
+					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
@@ -388,7 +388,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							<div class="number"></div>
 							<div class="desc">کارنامه ارزشیابی من</div>
 						</div>
-						<a class="more" href="evaluation.php">
+						<a class="more" href="myEval.php">
 						مشاهده کارنامه ارزشیابی <i class="m-icon-swapright m-icon-white"></i>
 						</a>                 
 					</div>
