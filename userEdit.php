@@ -22,7 +22,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>Metronic | userEdit</title>
+	<title>سیستم اتوماسیون اداری | مشخصات کاربری </title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -105,7 +105,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<!-- END USER LOGIN DROPDOWN -->
 			</ul>
 			<!-- END TOP NAVIGATION MENU -->
-		</div>
+		</div/>
 		<!-- END TOP NAVIGATION BAR -->
 	</div>
 	<!-- END HEADER -->
@@ -125,11 +125,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
 					<form class="sidebar-search" action="extra_search.html" method="POST">
 						<div class="form-container">
-							<div class="input-box">
-								<a href="javascript:;" class="remove"></a>
-								<input type="text" placeholder="جست و جو"/>
-								<input type="button" class="submit" value=" "/>
-							</div>
+						
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
@@ -142,20 +138,20 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</li>
 				<li>
 					<a href="compose.php">
-					<i class="fa-envelope-o"></i> 
-					<span class="title">ایجاد نامه</span>					
-					</a>
-				</li>
-				<li>
-					<a href="createGroup.php">
-					<i class="fa fa-cogs"></i> 
-					<span class="title">ایجاد گروه</span>
+					<i class="fa fa-pencil"></i> 
+					<span class="title">ایجاد نامه</span>
 					</a>
 				</li>
 				<li>
 					<a href="inbox.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-envelope"></i> 
 					<span class="title">کارتابل</span>
+					</a>
+				</li>
+				<li>
+					<a href="createGroup.php">
+					<i class="fa fa-group"></i> 
+					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li class="last open">
@@ -163,7 +159,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
-					<ul class="sub-menu">
+					<!--<ul class="sub-menu">
 						<li>
 						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
 						</li>
@@ -178,7 +174,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							</li>
 						</ul>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
@@ -186,33 +182,33 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "<!--" ;
 					}
 				?>
-				<li>
+				<li class="last ">
 					<a href="createUser.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="createOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
-				<li>
+				<li class="last ">
 					<a href="showUsers.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
-				</li>	
-				<li class="last">
+				</li>
+				<li class="last ">
 					<a href="showDepartments.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
-				<li class="last">
+				<li class="last ">
 					<a href="showOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
@@ -224,7 +220,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li class="start active">
 					<a href="userEdit.php">
-					<i class="fa fa-gift"></i> 
+					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					<span class="selected"></span>
 					<span class="arrow"></span>
@@ -235,7 +231,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		</div>
 		<!-- END SIDEBAR -->
 		<!-- BEGIN PAGE -->
-			<div class="page-content">
+		<div class="page-content">
 			<!-- BEGIN SAMPLE PORTLET CONFIGURATION MODAL FORM-->               
 			<div class="modal fade" id="portlet-config" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
 				<div class="modal-dialog">
@@ -310,24 +306,12 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
 					<h3 class="page-title">
-						<small></small>
-						کاربر
+						اتوماسیون اداری
+						<small>دانشگاه علم و فرهنگ</small>
 					</h3>
 					<ul class="page-breadcrumb breadcrumb">
-						<li class="btn-group">
-							<button type="button" class="btn blue dropdown-toggle" data-toggle="dropdown" data-hover="dropdown" data-delay="1000" data-close-others="true">
-							<span>اقدام</span> <i class="fa fa-angle-down"></i>
-							</button>
-							<ul class="dropdown-menu pull-right" role="menu">
-								<li><a href="#">اقدام</a></li>
-								<li><a href="#">Another action</a></li>
-								<li><a href="#">Something else here</a></li>
-								<li class="divider"></li>
-								<li><a href="#">Separated link</a></li>
-							</ul>
-						</li>
 						<li>
-							<i class="fa fa-home"></i>
+							<i class="fa fa-user"></i>
 							<a href="index.php">خانه</a> 
 							<i class="fa fa-angle-left"></i> 
 							<a href="userEdit.php">مشخصات کاربری</a> 
@@ -709,6 +693,20 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			</div>
 		</div>
 	</form>
+	</div>
+	</div><!--end of page-content -->
+	</div><!--end of page-container -->
+	<!-- END CONTAINER -->
+	<!-- BEGIN FOOTER -->
+	<div class="footer">
+		<div class="footer-inner">
+			2014 &copy; Office Automation by Mona Jalali and Faride Alemi.
+		</div>
+		<div class="footer-tools">
+			<span class="go-top">
+			<i class="fa fa-angle-up"></i>
+			</span>
+		</div>
 	</div>
 	');?>
 	<script>

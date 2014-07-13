@@ -24,7 +24,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 <head>
 	<meta charset="utf-8" />
-	<title>سیستم اتوماسیون اداری | Admin Dashboard </title>
+	<title>سیستم اتوماسیون اداری | صفحه اصلی </title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -127,11 +127,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
 					<form class="sidebar-search" action="extra_search.html" method="POST">
 						<div class="form-container">
-							<div class="input-box">
-								<a href="javascript:;" class="remove"></a>
-								<input type="text" placeholder="جست و جو"/>
-								<input type="button" class="submit" value=" "/>
-							</div>
+							
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
@@ -150,15 +146,15 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</a>
 				</li>
 				<li>
-					<a href="createGroup.php">
-					<i class="fa fa-group"></i> 
-					<span class="title">ایجاد گروه</span>
-					</a>
-				</li>
-				<li>
 					<a href="inbox.php">
 					<i class="fa fa-envelope"></i> 
 					<span class="title">کارتابل</span>
+					</a>
+				</li>
+				<li>
+					<a href="createGroup.php">
+					<i class="fa fa-group"></i> 
+					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li class="last open">
@@ -166,7 +162,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
-					<ul class="sub-menu">
+					<!--<ul class="sub-menu">
 						<li>
 						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
 						</li>
@@ -181,7 +177,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							</li>
 						</ul>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
@@ -310,12 +306,10 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			<div class="row">
 				<div class="col-md-12">
 					<!-- BEGIN PAGE TITLE & BREADCRUMB-->
-					
 					<h3 class="page-title">						
 						اتوماسیون اداری
 						<small>دانشگاه علم و فرهنگ</small>
 					</h3>
-					
 					<ul class="page-breadcrumb breadcrumb">
 						<li>
 							<i class="fa fa-home"></i>
@@ -344,9 +338,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			?>
 			<div class="row">
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-					<div class="dashboard-stat blue">
+					<div class="dashboard-stat green">
 						<div class="visual">
-							<i class="fa fa-comments"></i>
+							<i class="fa fa-envelope"></i>
 						</div>
 						<div class="details">
 							<div class="number"><?php echo $aadi[0]; ?></div>
@@ -358,9 +352,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-					<div class="dashboard-stat green">
+					<div class="dashboard-stat yellow">
 						<div class="visual">
-							<i class="fa fa-shopping-cart"></i>
+							<i class="fa fa-bell"></i>
 						</div>
 						<div class="details">
 							<div class="number"><?php echo $fori[0]; ?></div>
@@ -372,9 +366,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-					<div class="dashboard-stat purple">
+					<div class="dashboard-stat red">
 						<div class="visual">
-							<i class="fa fa-globe"></i>
+							<i class="fa fa-asterisk"></i>
 						</div>
 						<div class="details">
 							<div class="number"><?php echo $aani[0]; ?></div>
@@ -386,7 +380,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					</div>
 				</div>
 				<div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
-					<div class="dashboard-stat yellow">
+					<div class="dashboard-stat blue">
 						<div class="visual">
 							<i class="fa fa-bar-chart-o"></i>
 						</div>
@@ -549,7 +543,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- BEGIN FOOTER -->
 	<div class="footer">
 		<div class="footer-inner">
-			2013 &copy; Metronic by keenthemes.
+			2014 &copy; Office Automation by Mona Jalali and Faride Alemi.
 		</div>
 		<div class="footer-tools">
 			<span class="go-top">

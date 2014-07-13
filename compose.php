@@ -41,7 +41,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		}		
 	</style>
 	<meta charset="utf-8" />
-	<title>سیستم اتوماسیون اداری | Admin Dashboard </title>
+	<title>سیستم اتوماسیون اداری | ایجاد نامه </title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -146,11 +146,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<!-- BEGIN RESPONSIVE QUICK SEARCH FORM -->
 					<form class="sidebar-search" action="extra_search.html" method="POST">
 						<div class="form-container">
-							<div class="input-box">
-								<a href="javascript:;" class="remove"></a>
-								<input type="text" placeholder="جست و جو"/>
-								<input type="button" class="submit" value=" "/>
-							</div>
+							
 						</div>
 					</form>
 					<!-- END RESPONSIVE QUICK SEARCH FORM -->
@@ -163,20 +159,20 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				</li>
 				<li class="start active">
 					<a href="compose.php">
-					<i class="fa-envelope-o"></i> 
+					<i class="fa fa-pencil"></i> 
 					<span class="title">ایجاد نامه</span>
 					<span class="selected"></span>
 					</a>
 				</li>
 				<li>
 					<a href="createGroup.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li>
 					<a href="inbox.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-envelope"></i> 
 					<span class="title">کارتابل</span>
 					</a>
 				</li>
@@ -185,7 +181,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
-					<ul class="sub-menu">
+					<!--<ul class="sub-menu">
 						<li>
 						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
 						</li>
@@ -200,7 +196,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							</li>
 						</ul>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
@@ -210,31 +206,31 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li class="last ">
 					<a href="createUser.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="createOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showUsers.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showDepartments.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
@@ -246,7 +242,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				?>
 				<li>
 					<a href="userEdit.php">
-					<i class="fa fa-gift"></i> 
+					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					</a>
 				</li>
