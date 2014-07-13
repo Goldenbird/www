@@ -563,7 +563,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		function saveDraft(){
 			document.getElementById('form1').setAttribute('action','letter-compose.php?action=draft');
 			document.getElementById('form1').submit();
-			//window.location.href="letter-compose.php?action=draft";
 		}
 	</script>
 	<script>//for google suggest-like TO field:

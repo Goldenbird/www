@@ -34,12 +34,33 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		if(mysql_num_rows($q) == 0)
 			die('نامه ای یافت نشد.');
 		$letter = mysql_fetch_array($q);
-		echo ($letter['context']);
+		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$letter['senderID']."'");
+		$senderName = mysql_fetch_array($data);
+		$data=mysql_query("SELECT name, familyName FROM users WHERE id='".$letter['recieverID']."'");
+		$recieverName = mysql_fetch_array($data);
+	echo('<div class ="row">	
+		<div class="col-md-7">
+			<p align = "right">از:'.$senderName['name'].' '.$senderName['familyName'].'</p>
+			<p align = "right">به:'.$recieverName['name'].' '.$recieverName['familyName'].'</p>
+			<p align = "right">موضوع:'.$letter['subject'].'</p>
+		</div>
+		<div class="col-md-5">
+			<p align = "right">شماره:'.$letter['id'].'</p>
+			<p align = "right">تاریخ:'.$letter['sentDate'].'</p>
+			<!-- <p align = "right">پیوست:</p> -->
+		</div>
+	</div>
+	</br>
+	<div class = "row">
+		<p align = "right">'.$letter['context'].'</p>
+</div>');
+
 	?>
 </body>
 <script>
 function printLetter() {
     window.print();
 }
+
 </script>
 </html>
