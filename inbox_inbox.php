@@ -33,10 +33,24 @@ else
 						$ooffsseett=$_GET['offset'];
 					$myq="SELECT * FROM letters WHERE recieverID='".$username."' AND trash='0' ";
 					if(isset($_GET['por']) && $_GET['por']>0)
-							$myq = $myq." AND priority='".$_GET['por']."'";
-					if(isset($_GET['actionType']) && $_GET['actionType']>0)
-							$myq = $myq." AND actionType='".$_GET['actionType']."'";
-					$myq = $myq."LIMIT 5 offset ".$ooffsseett*5;
+						$myq = $myq." AND priority='".$_GET['por']."' ";
+					if(isset($_GET['actiontype']))
+					{
+						switch ($_GET['actiontype'])
+						{
+						case '1': {$myq = $myq." AND actionType='جهت اقدام' ";break;}
+						case '2': {$myq = $myq." AND actionType='جهت اطلاع' ";break;}
+						case '3': {$myq = $myq." AND actionType='جهت امضا' ";break;}
+						case '4': {$myq = $myq." AND actionType='جهت اقدام فوری' ";break;}
+						case '5': {$myq = $myq." AND actionType='جهت بررسی و اقدام لازم' ";break;}
+						case '6': {$myq = $myq." AND actionType='جهت صدور دستور لازم' ";break;}
+						case '7': {$myq = $myq." AND actionType='جهت استحضار' ";break;}
+						}
+					}
+					if(isset($_GET['unread']))
+							$myq = $myq." AND recievedDate is NULL ";
+					//$myq = $myq."LIMIT 5 offset ".$ooffsseett*5;
+					//echo $myq;
 					$letter=mysql_query($myq);
 					$mnr=mysql_num_rows($letter);
 				?>

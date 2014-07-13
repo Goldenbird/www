@@ -14,42 +14,41 @@ function generate()
 	$q=mysql_query("SELECT id FROM letters WHERE id LIKE ('".$var."%')");
 	return $var.(mysql_num_rows($q)+1);
 }
+$composit_to = $_POST['realTo'];
+$subject = $_POST['subject'];
+$private = $_POST['private'];
+$priority = $_POST['priority'];
+$actionType = $_POST['actionType'];
+$content = $_POST['message'];
+$sentDate = date("Y-m-d H:i:s");
+$letID = generate();
+if($_FILES['attachment']['error'] == UPLOAD_ERR_OK)
+{
+	if(!preg_match('/gif|png|x-png|jpeg|jpg|pdf|doc|txt|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
+	   die('Only browser compatible files allowed');
+	else if ($_FILES['attachment']['size'] > 2000000)//max = 16384
+	   die('Sorry file too large');
+	// Copy image file into a variable
+	else {
+		if (preg_match('/gif|png|x-png|jpeg|jpg/', $_FILES['attachment']['type']) )
+		{
+			$ext=substr($_FILES['attachment']['type'], 6);//eg. : image/jpeg
+			$path="C:/wamp/www/files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
+		}
+		else if(preg_match('/pdf|doc|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
+		{
+			$ext=substr($_FILES['attachment']['type'], 12);//eg. : application/pdf
+			$path="files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
+		}
+		if(!move_uploaded_file($_FILES['attachment']['tmp_name'], $path)) 
+			header("Location: compose.php?result=attachmentfailure");	
+		}
+}
+else if($_FILES['attachment']['error'] ==  UPLOAD_ERR_NO_FILE){
+	$path = "NULL";
+}
 if($_GET['action'] == "compose") 
 {
-	$composit_to = $_POST['realTo'];
-	$subject = $_POST['subject'];
-	$private = $_POST['private'];
-	$priority = $_POST['priority'];
-	$actionType = $_POST['actionType'];
-	$content = $_POST['message'];
-	$sentDate = date("Y-m-d H:i:s");
-	//echo $to . "<br>". $subject . "<br>". $private . "<br>". $actionType . "<br>". $content . "<br>". $sentDate . "<br>";
-	$attachName = ($_FILES['attachment']['name']);
-	if($_FILES['attachment']['error'] == UPLOAD_ERR_OK)
-	{
-		if(!preg_match('/gif|png|x-png|jpeg|jpg|pdf|doc|txt|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
-		   die('Only browser compatible files allowed');
-		else if ($_FILES['attachment']['size'] > 2000000)//max = 16384
-		   die('Sorry file too large');
-		// Copy image file into a variable
-		else {
-			if (preg_match('/gif|png|x-png|jpeg|jpg/', $_FILES['attachment']['type']) )
-			{
-				$ext=substr($_FILES['attachment']['type'], 6);//eg. : image/jpeg
-				$path="C:/wamp/www/files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
-			}
-			else if(preg_match('/pdf|doc|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
-			{
-				$ext=substr($_FILES['attachment']['type'], 12);//eg. : application/pdf
-				$path="files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
-			}
-			if(!move_uploaded_file($_FILES['attachment']['tmp_name'], $path)) 
-				header("Location: compose.php?result=attachmentfailure");	
-			}
-	}
-	else if($_FILES['attachment']['error'] ==  UPLOAD_ERR_NO_FILE){
-		$path = "NULL";
-	}
 	$temp = "Gg";
 	$aftt=0;
 	$tos=explode("|",$composit_to,1000);
@@ -85,55 +84,31 @@ if($_GET['action'] == "compose")
 }
 else if($_GET['action'] == "draft") 
 {
-	$attachName = ($_FILES['attachment']['name']);
-	if($_FILES['attachment']['error'] == UPLOAD_ERR_OK)
-	{
-		if(!preg_match('/gif|png|x-png|jpeg|jpg|pdf|doc|txt|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
-		   die('Only browser compatible files allowed');
-		else if ($_FILES['attachment']['size'] > 2000000)//max = 16384
-		   die('Sorry file too large');
-		// Copy image file into a variable
-		else {
-			if (preg_match('/gif|png|x-png|jpeg|jpg/', $_FILES['attachment']['type']) )
-			{
-				$ext=substr($_FILES['attachment']['type'], 6);//eg. : image/jpeg
-				$path="C:/wamp/www/files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
-			}
-			else if(preg_match('/pdf|doc|docx|ppt|pptx|xlsx/', $_FILES['attachment']['type']) )
-			{
-				$ext=substr($_FILES['attachment']['type'], 12);//eg. : application/pdf
-				$path="files/".$letID.".".$ext; // it should be $path="files/".$letID.".".$ext; AFTER LETTERID IS CORRECTLY GENERATED
-			}
-			if(!move_uploaded_file($_FILES['attachment']['tmp_name'], $path)) 
-				header("Location: compose.php?result=attachmentfailure");	
-			}
-	}
-	else if($_FILES['attachment']['error'] ==  UPLOAD_ERR_NO_FILE){
-		$path = "NULL";
-	}
-	$qDraft="insert into drafts (senderID,recieverID,subject,context,private,priority,actionType)
-			values('".$_SESSION['username']."','".$to."','".$subject."','".$content."','".$private."','".$priority."','".$actionType."')";
-	/*$ss = "INSERT INTO drafts (senderID,".
-			(($_POST['realTo'] != "")?(" recieverID,"):("")).
-			(($_POST['subject'] != "")?(" subject,"):("")).
-			(($_POST['message'] != "")?(" context,"):("")).
-			(($_POST['private'] != "")?(" private,"):("")).
-			(($_POST['priority'] != "")?(" priority,"):("")).
-			(($_POST['actionType'] != "")?(" actionType,"):("")).
-			(($_FILES['attachment']['error'] == UPLOAD_ERR_OK)?("attachment "):(""));
-	$str2 = str_replace(",attachment", " attachment", $ss);
-	$str2 = $str2.$_SESSION['username'].
-			(($_POST['realTo'] != "")?(" '".$_POST['realTo']."',"):("")).
-			(($_POST['subject'] != "")?(" '".$_POST['subject']."',"):("")).
-			(($_POST['message'] != "")?(" '".$_POST['message']."',"):("")).
-			(($_POST['private'] != "")?(" '".$_POST['private']."',"):("")).
-			(($_POST['priority'] != "")?(" '".$_POST['priority']."',"):("")).
-			(($_POST['actionType'] != "")?(" '".$_POST['actionType']."',"):("")).
-			(($_FILES['attachment']['error'] == UPLOAD_ERR_OK)?($path):(""));
-			*/
+	//$qDraft="insert into drafts (senderID,recieverID,subject,context,private,priority,actionType)
+	//		values('".$_SESSION['username']."','".$to."','".$subject."','".$content."','".$private."','".$priority."','".$actionType."')";
+	$ss = "INSERT INTO drafts (id, senderID, ".
+			(($_POST['realTo'] != "")?("recieverID, "):("")).
+			(($_POST['subject'] != "")?("subject, "):("")).
+			(($_POST['message'] != "")?("context, "):("")).
+			(($_POST['private'] != "")?("private, "):("")).
+			(($_POST['priority'] != "")?("priority, "):("")).
+			(($_POST['actionType'] != "")?("actionType, "):("")).
+			(($_FILES['attachment']['error'] == UPLOAD_ERR_OK)?("attachment, "):("")).
+			")";
+	$str2 = str_replace(", )", " )", $ss);
+	$str2 = $str2."VALUES('".$letID."', ".$_SESSION['username'].", ".
+			(($_POST['realTo'] != "")?("'".$_POST['realTo']."', "):("")).
+			(($_POST['subject'] != "")?(" '".$_POST['subject']."', "):("")).
+			(($_POST['message'] != "")?(" '".$_POST['message']."', "):("")).
+			(($_POST['private'] != "")?(" '".$_POST['private']."', "):("")).
+			(($_POST['priority'] != "")?(" '".$_POST['priority']."', "):("")).
+			(($_POST['actionType'] != "")?(" '".$_POST['actionType']."', "):("")).
+			(($_FILES['attachment']['error'] == UPLOAD_ERR_OK)?("'".$path."', "):("")).
+			")";
+	$qDraft = str_replace(", )", " )", $str2);
+	//echo $qDraft;
 	$que = mysql_query($qDraft);
-	echo $qDraft;
-	if(mysql_affected_rows()>0)
+	if(mysql_affected_rows()==1)
 		header("Location: compose.php?result=draftSucceeded");
 	else
 		header("Location: compose.php?result=draftFailed");

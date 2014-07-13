@@ -467,7 +467,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت اقدام">
+												<a style="text-decoration:none" href="inbox.php?actiontype=1&unread=1">
 												<span class="task-title-sp">جهت اقدام</span>
 												<span>'.$j1[0].'</span>
 												</a>
@@ -477,7 +477,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li');echo(($i==$letterNum)?('class="last-line"'):(''));echo('>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت اطلاع">
+												<a style="text-decoration:none" href="inbox.php?actiontype=2&unread=1">
 												<span class="task-title-sp">جهت اطلاع</span>
 												<span>'.$j2[0].'</span>
 												</a>
@@ -487,7 +487,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت امضا">
+												<a style="text-decoration:none" href="inbox.php?actiontype=3&unread=1">
 												<span class="task-title-sp">جهت اقدام</span>
 												<span>'.$j3[0].'</span>
 												</a>
@@ -497,7 +497,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت اقدام فوری">
+												<a style="text-decoration:none" href="inbox.php?actiontype=4&unread=1">
 												<span class="task-title-sp">جهت اقدام فوری</span>
 												<span>'.$j4[0].'</span>
 												</a>
@@ -507,7 +507,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت بررسی و اقدام لازم">
+												<a style="text-decoration:none" href="inbox.php?actiontype=5&unread=1">
 												<span class="task-title-sp">جهت بررسی و اقدام لازم</span>
 												<span>'.$j5[0].'</span>
 												</a>
@@ -517,7 +517,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li>
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت صدور دستور لازم">
+												<a style="text-decoration:none" href="inbox.php?actiontype=6&unread=1">
 												<span class="task-title-sp">جهت صدور دستور لازم</span>
 												<span>'.$j6[0].'</span>
 												</a>
@@ -527,7 +527,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									echo('
 										<li class="last-line">
 											<div class="task-title">
-												<a style="text-decoration:none" href="inbox.php?actionType=جهت استحضار">
+												<a style="text-decoration:none" href="inbox.php?actiontype=7&unread=1">
 												<span class="task-title-sp">جهت استحضار</span>
 												<span>'.$j7[0].'</span>
 												</a>

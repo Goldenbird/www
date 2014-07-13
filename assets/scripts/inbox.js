@@ -1,4 +1,6 @@
 var page_num=0;
+var act;
+var unread='0';
 var Inbox = function () {
 
     var content = $('.inbox-content');
@@ -37,7 +39,7 @@ var Inbox = function () {
     }	
 	
 	
-    var loadInbox = function (el, name,por,page, actionType) {
+    var loadInbox = function (el, name,por,page, actionType, jadid) {
         var title = $('.inbox-nav > li.' + name + ' a').attr('data-title');
         loading.show();
         content.html('');
@@ -46,9 +48,12 @@ var Inbox = function () {
 		if(por>0)
 			url+="por="+por+"&";
 		if(actionType!="")
-			url+="actionType="+actionType+"&";
+			url+="actiontype="+actionType+"&";
+		if(jadid!='0')
+			url+="unread=1&";
 		if(page>0)
 			url+="offset="+page;
+		//alert(url);
         $.ajax({
             type: "POST",
             //cache: false,
@@ -60,7 +65,6 @@ var Inbox = function () {
                 $('.inbox-nav > li.active').removeClass('active');
                 $('.inbox-nav > li.' + name).addClass('active');
                 $('.inbox-header > h1').text(title);
-
                 loading.hide();
                 content.html(res);
                 App.fixContentHeight();
@@ -346,7 +350,7 @@ var Inbox = function () {
 
             // handle compose btn click
             $('.inbox .compose-btn a').live('click', function () {
-                loadInbox($(this),'inbox',0,page_num);
+                loadInbox($(this),'inbox',0,page_num,act,unread);
             });
 
             // handle reply and forward button click
@@ -361,7 +365,7 @@ var Inbox = function () {
 
             // handle inbox listing
             $('.inbox-nav > li.inbox > a').click(function () {
-                loadInbox($(this), 'inbox',0, 'جهت اقدام',page_num);
+                loadInbox($(this), 'inbox',0,page_num,act,unread);
             });
 
             // handle sent listing
@@ -389,11 +393,20 @@ var Inbox = function () {
                 handleBCCInput();
             });
 			//handle Page
+
 			if (App.getURLParameter("page") ) 
                 page_num=App.getURLParameter("page");
+			if (App.getURLParameter("actiontype") ) 
+                act=App.getURLParameter("actiontype");
+			else
+				act='';
+			if (App.getURLParameter("unread") ) 
+                unread=App.getURLParameter("unread");
+			else
+				unread='0';
             //handle loading content based on URL parameter
 			if (App.getURLParameter("priority") ) {
-                loadInbox($(this), 'inbox',App.getURLParameter("priority"),page_num);
+                loadInbox($(this), 'inbox',App.getURLParameter("priority"),page_num,act,unread);
             }else {
                $('.inbox-nav > li.inbox > a').click();
             }

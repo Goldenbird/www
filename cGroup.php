@@ -18,13 +18,11 @@ if($_GET['action'] == "create")
 		{
 			$quer=mysql_query("INSERT INTO membership (groupID, memberID) VALUES ('".$id['id']."', '".$memID."') ");
 		}
-		//header("Location: createGroup.php?result=success");
-		header("Location: alertResult.php?result=1");
+		header("Location: createGroup.php?result=success");
 	}
 	else
 	{
-		//header("Location: createGroup.php?result=fail");
-		header("Location: alertResult.php?result=0");
+		header("Location: createGroup.php?result=failure");
 	}
 	
 }

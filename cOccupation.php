@@ -16,7 +16,7 @@ if($_GET['action'] == "create")
 	}
 	else
 	{
-		header("Location: createOccupation.php?result=fail");
+		header("Location: createOccupation.php?result=failure");
 	}
 }
 ?>
