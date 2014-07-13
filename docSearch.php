@@ -562,8 +562,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	//Starts the AJAX request.
 	function searchSuggestS() {
 		if (req1.readyState == 4 || req1.readyState == 0) {
-			var kols=document.getElementById('fakeToSender').value.split('|');
-			var str = escape(kols[kols.length-1]);
+			var str = escape(document.getElementById('fakeToSender').value);
 			req1.open("GET", 'searchSuggest.php?search=' + str, true);
 			req1.onreadystatechange = handleSearchSuggestS; 
 			req1.send(null);
@@ -601,8 +600,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	//Starts the AJAX request.
 	function searchSuggestR() {
 		if (req2.readyState == 4 || req2.readyState == 0) {
-			var kolr=document.getElementById('fakeToReciever').value.split('|');
-			var str = escape(kolr[kolr.length-1]);
+			var str = escape(document.getElementById('fakeToReciever').value);
 			req2.open("GET", 'searchSuggest.php?search=' + str, true);
 			req2.onreadystatechange = handleSearchSuggestR; 
 			req2.send(null);
