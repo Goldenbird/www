@@ -1,6 +1,16 @@
-<?php/*
+<?php 
 error_reporting(E_ALL ^ E_DEPRECATED);
+session_name("oa");
+session_start();
 include 'db_connect.php';
+if(isset($_SESSION['username']) == false) 
+	header("Location: page_login.php");
+else
+	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
+
+?>
+
+<?php
 $users = mysql_query("select * from users");
 $now=strtotime(date("Y-m-d H:i:s")."");
 $countUser = mysql_num_rows($users);
@@ -10,7 +20,7 @@ $WTI = array();
 $RP = 0;
 $NP = 0;
 $EP = 0;
-$grade = 0;
+$grade = array();
 //calculate RP
 for($i=0; $i<$countUser; $i++)
 {	
@@ -28,27 +38,15 @@ for($i=0; $i<$countUser; $i++)
 	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."'"));
 	$totalWorkDone[$i]=$countHamesh+$countForward;
 	$totalWork=$countLetter;
-	print_r($user['id']);
-	echo '</br>';
-	echo 'Count hamesh:'.$countHamesh;
-	echo '</br>';
-	echo 'count forward:'.$countForward;
-	echo '</br>';
-	echo 'total work done: '.$totalWorkDone[$i];
-	echo '</br>';
-	echo 'total work: '.$totalWork;
-	echo '</br>';
+	
 	//محاسبه عملکرد واقعی
 	if($totalWork == 0)
 	{
-		echo "RP: 0";
-		echo '</br>';
+	
 	}
 	else
 	{
 		$RP = $totalWorkDone[$i]/$totalWork;
-		echo 'RP:'.$RP;
-		echo '</br>';
 	}
 	//calculate NP
 	$total = 0;
@@ -69,20 +67,16 @@ for($i=0; $i<$countUser; $i++)
 	}
 	if($totalWorkDone[$i]==0)
 	{
-		echo "NP can't be processed as the user haven't done any work";
-		echo '</br>';
+
 	}
 	else
 	{
 		$NP = ($total+$countError)/$totalWorkDone[$i];
-		echo 'NP: '.$NP;
-		echo '</br>';
+
 	}
 		
 	//calculate EP
 	$EP = $RP*(1-$NP);
-	echo 'EP: '.$EP;
-	echo '</br>';
 
 	//calculate WTI : karkarde user dar system
 	$userLog = mysql_query("select * from login where userID='".$user['id']."'");
@@ -94,24 +88,12 @@ for($i=0; $i<$countUser; $i++)
 		$log = mysql_fetch_array($userLog);
 		$WTI[$i] += ($log['logout']-$log['login']);
 	}
-	echo 'WTI: '.$WTI[$i] ;
-	echo '</br>';
-	$grade = $EP*$WTI[$i];
-	echo 'grade: '.$grade;
-	echo '</br>';echo '</br>'; 
-}*/?>
-<?php 
-error_reporting(E_ALL ^ E_DEPRECATED);
-session_name("oa");
-session_start();
-include 'db_connect.php';
-if(isset($_SESSION['username']) == false) 
-	header("Location: page_login.php");
-else
-	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
 
+
+	$grade[$i] = $EP*$WTI[$i];
+
+}
 ?>
-
 <!DOCTYPE html>
 <!-- 
 Template Name: Metronic - Responsive Admin Dashboard Template build with Twitter Bootstrap 3.0.2
@@ -124,7 +106,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
 <!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
 <!-- BEGIN HEAD -->
-
 <head>
 	<meta charset="utf-8" />
 	<title>Metronic | Visual Charts</title>
@@ -498,11 +479,19 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<script src="assets/scripts/app.js"></script>
 	<script src="assets/scripts/charts.js"></script>      
 	<script>
+	var data1=[<?php
+	for($m=0;$m<20;$m++)
+	{
+		if($m>0)
+			echo ',';
+		echo '['.$m.','.($grade[$m]).']';
+	}
+	?>];
 		jQuery(document).ready(function() {       
 		   // initiate layout and plugins
 		   App.init();
 		   Charts.init();
-		   Charts.initCharts();  
+		   //Charts.initCharts();  
 		   Charts.initBarCharts();
 		});
 	</script>
