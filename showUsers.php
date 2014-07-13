@@ -3,7 +3,7 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
 include 'db_connect.php';
- if(isset($_SESSION['username']) == false)
+if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");

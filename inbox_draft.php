@@ -50,10 +50,10 @@ else
 						<td class="inbox-small-cells"></i></td>
 						<td class="view-message  hidden-xs">'.$recieverName['name'].' '.$recieverName['familyName'].'</td>
 						<td class="view-message" name="letS'.$data['id'].'" onclick="viewMe('.$data['id'].',1)">'.$data['subject'].'</td>
-						<td class="view-message sib">'); echo (($data['private'] == '0') ? ('غیرمحرمانه') : ('محرمانه')); echo('</td>
-						<td class="view-message ">'.$data['actionType'].'</td>
-						<td class="view-message  inbox-small-cells">');
-						if($data['attachment'] != "NULL" && $data['attachment'] != NULL) echo('<i class="fa fa-paperclip"></i></td>'); else echo ('</td>');
+						<td class="view-message sib" onclick="viewMe('.$data['id'].',1)">'); echo (($data['private'] == '0') ? ('غیرمحرمانه') : ('محرمانه')); echo('</td>
+						<td class="view-message " onclick="viewMe('.$data['id'].',1)">'.$data['actionType'].'</td>
+						<td class="view-message  inbox-small-cells" onclick="viewMe('.$data['id'].',1)">');
+						if($data['attachment'] != "NULL" && $data['attachment'] != NULL) echo('<i class="fa fa-paperclip"></i>');
 						echo('</td>
 					</tr>'
 				);

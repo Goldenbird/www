@@ -1,29 +1,60 @@
 <?php
 error_reporting(E_ALL ^ E_DEPRECATED);
+include 'db_connect.php';
 session_name("oa");
 session_start();
- if(isset($_SESSION['username']) == false)
+if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
-if($_GET['action'] == "docSearch") 
+else
+	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
+
+function replace_unicode_escape_sequence($match) {
+	return mb_convert_encoding(pack('H*', $match[1]), 'UTF-8', 'UCS-2BE');
+}
+function unicode_decode($str) {
+	return preg_replace_callback('/%u([^m-z]{4})/i', 'replace_unicode_escape_sequence', $str);
+}
+if($_GET['action'] == "search") 
 {
-	include 'db_connect.php';
 	$docType = $_POST['docType'];
-	$senderName = $_POST['realToSender'];
-	$recieverName = $_POST['realToReciever'];
-	$sentDateFrom = $_POST['sentDateFrom'];
-	$sentDateTo = $_POST['sentDateTo'];
-	$recieveDateFrom = $_POST['recieveDateFrom'];
-	$recieveDateTo = $_POST['recieveDateTo'];
+	$sender = $_POST['realToSender'];
+	$reciever = $_POST['realToReciever'];
+	$sentFrom = $_POST['sentDateFrom'];
+	$sentTo = $_POST['sentDateTo'];
+	$recievedFrom = $_POST['recieveDateFrom'];
+	$recievedTo = $_POST['recieveDateTo'];
 	$subject = $_POST['subject'];
 	$keyword = $_POST['keyword'];
 	$privacy = $_POST['privacy'];
 	$priority = $_POST['priority'];
 	//sender,reciever
-	$composit_to = $_POST['to'];
-	$tos=explode("|",$composit_to,1000);
-	if($docType = "نامه ارسالی")
+//	"SELECT * FROM `letters` WHERE `id``senderID``recieverID``sentDate``recievedDate``subject``context``private``actionType`
+	//			`status``priority``trash``error``attachment``parent`";
+	if($docType = "نامه دریافتی")
 	{
-		$sentDoc = mysql_query("select * from letters where senderID = "$_SESSION['username']" AND".
-		(($senderName != "")?("recieverID, "):("")).);
+		$q1 = "SELECT * FROM letters WHERE recieverID = '".$_SESSION['username']."' ";
+		if($sender!="") $q1=$q1."AND senderID = '".$sender."' ";
+		if($sentFrom!="" && $sentTo!="") $q1= $q1."AND sentDate BETWEEN '".$sentFrom."' AND '".$sentTo."' ";
+		if($recievedFrom!="" && $recievedTo!="") $q1=$q1."AND recievedDate BETWEEN '".$recievedFrom."' AND '".$recievedTo."' ";
+		if($subject!="") $q1=$q1."AND subject = '".unicode_decode($subject)."%' ";
+		if($keyword!="") $q1=$q1."AND context like('".unicode_decode($keyword)."%') ";
+		if($privacy!="") $q1=$q1."AND private = ('".($privacy)."%') ";
+		if($priority!="") $q1=$q1."AND priority = ('".($privacy)."%') ";
+		$q1=$q1."ORDER BY sentDate";
+
+		echo "inboxq = ".$q1;
+		$data=mysql_query($q1);
+	}
+	else if($docType = "نامه ارسالی")
+	{
+		$q2 = "SELECT * FROM letters WHERE senderID = '".$_SESSION['username']."' AND recieverID = '".$reciever."' AND ".
+		(($sentFrom!="" && $sentTo!="")?("sentDate BETWEEN '".$sentFrom."' AND '".$sentTo."' AND "):("")).
+		(($recievedFrom!="" && $recievedTo!="")?("recievedDate BETWEEN '".$recievedFrom."' AND '".$recievedTo."' AND "):("")).
+		(($subject!="")?("subject = '".unicode_decode($subject)."%' AND "):("")).
+		(($keyword!="")?("context like('".unicode_decode($keyword)."%') AND "):("")).
+		(($privacy!="")?("private = ('".($privacy)."%') AND "):("")).
+		(($priority!="")?("priority = ('".($privacy)."%') AND "):("")).
+		"ORDER BY sentDate";
+		$outboxq = str_replace("AND ORDER", " ORDER", $q1);
 	}
 }

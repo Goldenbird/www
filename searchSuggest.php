@@ -12,6 +12,8 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 		header("Location: page_login.php");
 		DIE();
 	}
+	else
+	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
 	include 'db_connect.php';
 	if (isset($_GET['search']) && $_GET['search'] != '') {
 	//Add slashes to any quotes to avoid SQL problems.
