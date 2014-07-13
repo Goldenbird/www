@@ -519,8 +519,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		   Inbox.init();
 		});
 		var docType = document.getElementById('docType');
-		var senderName = document.getElementById('realToSender');
-		var recieverName = document.getElementById('realToReciever');
+		//var senderName = document.getElementById('realToSender');
+		//var recieverName = document.getElementById('realToReciever');
 		/*var sentDateFrom = document.getElementById('sentDateFrom');
 		var sentDateTo = document.getElementById('sentDateTo');
 		var recieveDateFrom = document.getElementById('recieveDateFrom');
@@ -587,17 +587,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	}
 	function addTos(value)
 	{
-		document.getElementById('realToSender').value += value+"|";
+		document.getElementById('realToSender').value = value;
 	}
 	//Click function
 	function setSearchS(value) {
-		var tmp = document.getElementById('fakeToSender').value.trim();
-		var ind=tmp.lastIndexOf("|");
-		if(ind>0)
-			tmp=tmp.substr(0,tmp.lastIndexOf("|")+1);
-		else
-			tmp="";
-		document.getElementById('fakeToSender').value = tmp+value+"|";
+		document.getElementById('fakeToSender').value =value;
 		document.getElementById('search_suggestS').innerHTML = '';
 	}
 	//RECIEVER--------------------------------------------------------------------------------
@@ -623,7 +617,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 			for(i=0; i < str.length - 1; i++) {
 				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
 				suggest += 'onmouseout="javascript:suggestOut(this);" ';
-				suggest += 'onclick="javascript:setSearchR(this.innerHTML);addTor(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'onclick="javascript:setSearchR(this.innerHTML);addTor(\''+ str[i].split('$')[0]+ '\');" ';
 				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
 				ss.innerHTML += suggest;
 				//ss.innerHTML += str[i].split('$')[1];
@@ -632,17 +626,11 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	}
 	function addTor(value)
 	{
-		document.getElementById('realToReciever').value += value+"|";
+		document.getElementById('realToReciever').value = value;
 	}
 	//Click function
 	function setSearchR(value) {
-		var tmp = document.getElementById('fakeToReciever').value.trim();
-		var ind=tmp.lastIndexOf("|");
-		if(ind>0)
-			tmp=tmp.substr(0,tmp.lastIndexOf("|")+1);
-		else
-			tmp="";
-		document.getElementById('fakeToReciever').value = tmp+value+"|";
+		document.getElementById('fakeToReciever').value =value;
 		document.getElementById('search_suggestR').innerHTML = '';
 	}
 	</script>

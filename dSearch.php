@@ -17,10 +17,8 @@ function unicode_decode($str) {
 if($_GET['action'] == "search") 
 {
 	$docType = $_POST['docType'];
-	$tos = $_POST['realToSender'];
-	$sender=str_replace("|","",$tos);
-	$tor = $_POST['realToReciever'];
-	$sender=str_replace("|","",$tor);
+	$sender = $_POST['realToSender'];
+	$reciever = $_POST['realToReciever'];
 	$sentFrom = $_POST['sentDateFrom'];
 	$sentTo = $_POST['sentDateTo'];
 	$recievedFrom = $_POST['recieveDateFrom'];
@@ -30,8 +28,6 @@ if($_GET['action'] == "search")
 	$privacy = $_POST['privacy'];
 	$priority = $_POST['priority'];
 	//sender,reciever
-	$composit_to = $_POST['to'];
-	$tos=explode("|",$composit_to,1000);
 	"SELECT * FROM `letters` WHERE `id``senderID``recieverID``sentDate``recievedDate``subject``context``private``actionType`
 				`status``priority``trash``error``attachment``parent`";
 	if($docType = "نامه دریافتی")
