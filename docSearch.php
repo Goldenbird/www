@@ -65,6 +65,22 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="assets/css/pages/inbox-rtl.css" rel="stylesheet" type="text/css" />
 	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
 	<!-- END THEME STYLES -->
+		<style type="text/css" media="screen">
+		.suggest_link {
+			background-color: #FFFFFF;
+			padding: 2px 6px 2px 6px;
+		}
+		.suggest_link_over {
+			background-color: #3366CC;
+			padding: 2px 6px 2px 6px;
+		}
+		#search_suggest {
+			position: absolute; 
+			background-color: #FFFFFF; 
+			text-align: left; 
+			border: 1px solid #000000;			
+		}		
+	</style>
 	<link rel="shortcut icon" href="favicon.ico" />
 </head>
 <!-- END HEAD -->
@@ -277,7 +293,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									<div class="row">
 										<div class="col-md-6"style="margin-right: 262px;">
 										<div class="form-group">
-												<label class="control-label col-md-3">نوع مدرک</label>
+											
+											<label class="control-label col-md-3"><span class="required">*</span> نوع مدرک</label>
+												
 												<div class="col-md-9">
 													<select id="docType" name="docType" class="form-control">
 														<option value=""></option>
@@ -296,7 +314,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div id="divSender" class="form-group">
 												<label class="control-label col-md-3">نام فرستنده</label>
 												<div class="col-md-9">
-													<input id="senderName" name="senderName" type="text" class="form-control">
+													<input type="text" name="fakeToSender" id="fakeToSender" onkeyup="searchSuggest();" autocomplete="off" class="form-control">
+													<input type="text" name="realToSender" id="realToSender" style="display:none">
 												</div>
 											</div>
 										</div>
@@ -305,7 +324,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div id="divReciever" class="form-group">
 												<label class="control-label col-md-3">نام گیرنده</label>
 												<div class="col-md-9">
-													<input id="recieverName" name="recieverName" class="form-control">
+													<input type="text" name="fakeToReciever" id="fakeToReciever" onkeyup="searchSuggest();" autocomplete="off" class="form-control">
+													<input type="text" name="realToReciever" id="realToReciever" style="display:none">
 												</div>
 											</div>
 										</div>
@@ -358,7 +378,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group">
 												<label class="control-label col-md-3">موضوع نامه</label>
 												<div class="col-md-9">
-													<input id="subject" name="subject" type="text" class="form-control" placeholder="Reza">
+													<input id="subject" name="subject" type="text" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -408,7 +428,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 										<div class="col-md-6">
 											<div class="col-md-offset-3 col-md-9">
 												<button type="button" class="btn blue" onclick=checkForm()>جست و جو</button>
-												<button type="button" class="btn default" onclick="window.location.href='/index.php'">لغو</button>                              
+												<button type="button" class="btn default" onclick="window.location.href='/inbox.php'">لغو</button>                              
 											</div>
 										</div>
 										<div class="col-md-6"></div>
@@ -495,8 +515,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	</script>
 	<script>
 		var docType = document.getElementById('docType');
-		var senderName = document.getElementById('senderName');
-		var recieverName = document.getElementById('recieverName');
+		var senderName = document.getElementById('realToSender');
+		var recieverName = document.getElementById('realToReciever');
 		var sentDateFrom = document.getElementById('sentDateFrom');
 		var sentDateTo = document.getElementById('sentDateTo');
 		var recieveDateFrom = document.getElementById('recieveDateFrom');
@@ -507,8 +527,138 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		var priority = document.getElementById('priority');
 		function checkForm()
 		{
-				document.getElementById('docSearch').submit();
+				if(docType == "")
+					alert("نوع مدرک نمی تواند خالی باشد.");
+				else
+					document.getElementById('docSearch').submit();
 		}
+	//SENDER	
+	//for google suggest-like TO field:
+	//Gets the browser specific XmlHttpRequest Object
+	function getXmlHttpRequestObject() {
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		} else if(window.ActiveXObject) {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} else {
+			alert("Your Browser Sucks!\nIt's about time to upgrade don't you think?");
+		}
+	}
+	//Our XmlHttpRequest object to get the auto suggest
+	var searchReq = getXmlHttpRequestObject();
+	//Called from keyup on the search textbox.
+	//Starts the AJAX request.
+	function searchSuggest() {
+		if (searchReq.readyState == 4 || searchReq.readyState == 0) {
+			var kol=document.getElementById('fakeToSender').value.split('|');
+			var str = escape(kol[kol.length-1]);
+			searchReq.open("GET", 'searchSuggest.php?search=' + str, true);
+			searchReq.onreadystatechange = handleSearchSuggest; 
+			searchReq.send(null);
+		}		
+	}
+	//Called when the AJAX response is returned.
+	function handleSearchSuggest() {
+		if (searchReq.readyState == 4) {
+			var ss = document.getElementById('search_suggest')
+			ss.innerHTML = '';
+			var str = searchReq.responseText.split("\n");
+			for(i=0; i < str.length - 1; i++) {
+				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
+				suggest += 'onmouseout="javascript:suggestOut(this);" ';
+				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTo(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
+				ss.innerHTML += suggest;
+				//ss.innerHTML += str[i].split('$')[1];
+			}
+		}
+	}
+	function addTo(value)
+	{
+		document.getElementById('realToSender').value += value+"|";
+	}
+	//Mouse over function
+	function suggestOver(div_value) {
+		div_value.className = 'suggest_link_over';
+	}
+	//Mouse out function
+	function suggestOut(div_value) {
+		div_value.className = 'suggest_link';
+	}
+	//Click function
+	function setSearch(value) {
+		var tmp = document.getElementById('fakeToSender').value.trim();
+		var ind=tmp.lastIndexOf("|");
+		if(ind>0)
+			tmp=tmp.substr(0,tmp.lastIndexOf("|")+1);
+		else
+			tmp="";
+		document.getElementById('fakeToSender').value = tmp+value+"|";
+		document.getElementById('search_suggest').innerHTML = '';
+	}
+	//RECIEVER
+		//Gets the browser specific XmlHttpRequest Object
+	function getXmlHttpRequestObject() {
+		if (window.XMLHttpRequest) {
+			return new XMLHttpRequest();
+		} else if(window.ActiveXObject) {
+			return new ActiveXObject("Microsoft.XMLHTTP");
+		} else {
+			alert("Your Browser Sucks!\nIt's about time to upgrade don't you think?");
+		}
+	}
+	//Our XmlHttpRequest object to get the auto suggest
+	var searchReq = getXmlHttpRequestObject();
+	//Called from keyup on the search textbox.
+	//Starts the AJAX request.
+	function searchSuggest() {
+		if (searchReq.readyState == 4 || searchReq.readyState == 0) {
+			var kol=document.getElementById('fakeToReciever').value.split('|');
+			var str = escape(kol[kol.length-1]);
+			searchReq.open("GET", 'searchSuggest.php?search=' + str, true);
+			searchReq.onreadystatechange = handleSearchSuggest; 
+			searchReq.send(null);
+		}		
+	}
+	//Called when the AJAX response is returned.
+	function handleSearchSuggest() {
+		if (searchReq.readyState == 4) {
+			var ss = document.getElementById('search_suggest')
+			ss.innerHTML = '';
+			var str = searchReq.responseText.split("\n");
+			for(i=0; i < str.length - 1; i++) {
+				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
+				suggest += 'onmouseout="javascript:suggestOut(this);" ';
+				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTo(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
+				ss.innerHTML += suggest;
+				//ss.innerHTML += str[i].split('$')[1];
+			}
+		}
+	}
+	function addTo(value)
+	{
+		document.getElementById('realToReciever').value += value+"|";
+	}
+	//Mouse over function
+	function suggestOver(div_value) {
+		div_value.className = 'suggest_link_over';
+	}
+	//Mouse out function
+	function suggestOut(div_value) {
+		div_value.className = 'suggest_link';
+	}
+	//Click function
+	function setSearch(value) {
+		var tmp = document.getElementById('fakeToReciever').value.trim();
+		var ind=tmp.lastIndexOf("|");
+		if(ind>0)
+			tmp=tmp.substr(0,tmp.lastIndexOf("|")+1);
+		else
+			tmp="";
+		document.getElementById('fakeToReciever').value = tmp+value+"|";
+		document.getElementById('search_suggest').innerHTML = '';
+	}
 	</script>
 		<!-- BEGIN PAGE LEVEL PLUGINS -->
 	<script type="text/javascript" src="assets/plugins/fuelux/js/spinner.min.js"></script>

@@ -271,4 +271,5 @@ echo('
 			tmp="";
 		document.getElementById('fakeTo').value = tmp+value+"|";
 		document.getElementById('search_suggest').innerHTML = '';
-	}</script>
+	}
+	</script>
