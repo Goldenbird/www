@@ -1,12 +1,12 @@
 <?php
 error_reporting(E_ALL ^ E_DEPRECATED);
+include 'db_connect.php';
 session_name("oa");
 session_start();
  if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
 if($_GET['action'] == "docSearch") 
 {
-	include 'db_connect.php';
 	$docType = $_POST['docType'];
 	$senderName = $_POST['realToSender'];
 	$recieverName = $_POST['realToReciever'];

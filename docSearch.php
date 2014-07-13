@@ -3,7 +3,7 @@ error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
 include 'db_connect.php';
- if(isset($_SESSION['username']) == false)
+if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php charset=utf-8");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
@@ -22,7 +22,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>Metronic | CreateUser</title>
+	<title>سیستم اتوماسیون اداری | جست و جوی مدرک</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -287,15 +287,13 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						</div>
 						<div class="portlet-body form">
 							<!-- BEGIN FORM-->
-							<form enctype="multipart/form-data" id="docSearch" method="post" action="dSearch.php?action=search" class="form-horizontal">
+							<form enctype="multipart/form-data" id="formDocSearch" method="post" action="dSearch.php?action=search" class="form-horizontal">
 								<div class="form-body">
-									<h3 class="form-section">جست و جو</h3>
+									<h3 class="form-section">جست و جوی مدرک</h3>
 									<div class="row">
 										<div class="col-md-6"style="margin-right: 262px;">
 										<div class="form-group">
-											
 											<label class="control-label col-md-3"><span class="required">*</span> نوع مدرک</label>
-												
 												<div class="col-md-9">
 													<select id="docType" name="docType" class="form-control">
 														<option value=""></option>
@@ -314,7 +312,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div id="divSender" class="form-group">
 												<label class="control-label col-md-3">نام فرستنده</label>
 												<div class="col-md-9">
-													<input type="text" name="fakeToSender" id="fakeToSender" onkeyup="searchSuggest();" autocomplete="off" class="form-control">
+													<input type="text" name="fakeToSender" id="fakeToSender" onkeyup="searchSuggestS();" autocomplete="off" class="form-control">
 													<input type="text" name="realToSender" id="realToSender" style="display:none">
 												</div>
 											</div>
@@ -324,7 +322,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div id="divReciever" class="form-group">
 												<label class="control-label col-md-3">نام گیرنده</label>
 												<div class="col-md-9">
-													<input type="text" name="fakeToReciever" id="fakeToReciever" onkeyup="searchSuggest();" autocomplete="off" class="form-control">
+													<input type="text" name="fakeToReciever" id="fakeToReciever" onkeyup="searchSuggestR();" autocomplete="off" class="form-control">
 													<input type="text" name="realToReciever" id="realToReciever" style="display:none">
 												</div>
 											</div>
@@ -343,7 +341,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 										<!--/span-->
 										<div class="col-md-6">
 											<div class="form-group">
-												<label class="control-label col-md-3">تاریخ ارسال: لغایت </label>
+												<label class="control-label col-md-3">تا </label>
 												<div class="col-md-9">
 													<input id="sentDateTo" name="dob" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
 												</div>
@@ -355,7 +353,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
-												<label class="control-label col-md-3">تاریخ دریافت:از</label>
+												<label class="control-label col-md-3">تاریخ دریافت: از</label>
 												<div class="col-md-9">
 													<input id="recieveDateFrom" name="recieveDateFrom" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
 												</div>
@@ -364,7 +362,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 										<!--/span-->
 										<div class="col-md-6">
 											<div class="form-group">
-												<label class="control-label col-md-3">تاریخ دریافت: لغایت</label>
+												<label class="control-label col-md-3">تا </label>
 												<div class="col-md-9">
 													<input id="recieveDateTo" name="recieveDateTo" type="text" maxlength="10" class="form-control" placeholder="YYYY-MM-DD">
 												</div>
@@ -376,7 +374,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 									<div class="row">
 										<div class="col-md-6">
 											<div class="form-group">
-												<label class="control-label col-md-3">موضوع نامه</label>
+												<label class="control-label col-md-3">جست و جو در موضوع نامه</label>
 												<div class="col-md-9">
 													<input id="subject" name="subject" type="text" class="form-control">
 												</div>
@@ -385,9 +383,9 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 										<!--/span-->
 										<div class="col-md-6">
 											<div id="divNationalC" class="form-group">
-												<label class="control-label col-md-3">کلمه کلیدی</label>
+												<label class="control-label col-md-3">جست و جو در متن نامه</label>
 												<div class="col-md-9">
-													<input id="keyword" name="nationalCode" maxlength="10" type="text" class="form-control">
+													<input id="keyword" name="keyword" type="text" class="form-control">
 												</div>
 											</div>
 										</div>
@@ -428,7 +426,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 										<div class="col-md-6">
 											<div class="col-md-offset-3 col-md-9">
 												<button type="button" class="btn blue" onclick=checkForm()>جست و جو</button>
-												<button type="button" class="btn default" onclick="window.location.href='/inbox.php'">لغو</button>                              
+												<button type="button" class="btn default" onclick="window.location.href='\inbox.php'">لغو</button>                              
 											</div>
 										</div>
 										<div class="col-md-6"></div>
@@ -512,25 +510,23 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		   App.init();
 		   Inbox.init();
 		});
-	</script>
-	<script>
 		var docType = document.getElementById('docType');
 		var senderName = document.getElementById('realToSender');
 		var recieverName = document.getElementById('realToReciever');
-		var sentDateFrom = document.getElementById('sentDateFrom');
+		/*var sentDateFrom = document.getElementById('sentDateFrom');
 		var sentDateTo = document.getElementById('sentDateTo');
 		var recieveDateFrom = document.getElementById('recieveDateFrom');
 		var recieveDateTo = document.getElementById('recieveDateTo');
 		var subject = document.getElementById('subject');
 		var keyword = document.getElementById('keyword');
 		var privacy = document.getElementById('privacy');
-		var priority = document.getElementById('priority');
+		var priority = document.getElementById('priority');*/
 		function checkForm()
 		{
-				if(docType == "")
-					alert("نوع مدرک نمی تواند خالی باشد.");
-				else
-					document.getElementById('docSearch').submit();
+			if(docType == "")
+				alert("نوع مدرک نمی تواند خالی باشد.");
+			else
+				document.getElementById('formDocSearch').submit();
 		}
 	//SENDER	
 	//for google suggest-like TO field:
@@ -541,39 +537,39 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		} else if(window.ActiveXObject) {
 			return new ActiveXObject("Microsoft.XMLHTTP");
 		} else {
-			alert("Your Browser Sucks!\nIt's about time to upgrade don't you think?");
+			alert("Your Browser is too old!\nIt's about time to upgrade don't you think?");
 		}
 	}
 	//Our XmlHttpRequest object to get the auto suggest
-	var searchReq = getXmlHttpRequestObject();
+	var req1 = getXmlHttpRequestObject();
 	//Called from keyup on the search textbox.
 	//Starts the AJAX request.
-	function searchSuggest() {
-		if (searchReq.readyState == 4 || searchReq.readyState == 0) {
-			var kol=document.getElementById('fakeToSender').value.split('|');
-			var str = escape(kol[kol.length-1]);
-			searchReq.open("GET", 'searchSuggest.php?search=' + str, true);
-			searchReq.onreadystatechange = handleSearchSuggest; 
-			searchReq.send(null);
+	function searchSuggestS() {
+		if (req1.readyState == 4 || req1.readyState == 0) {
+			var kols=document.getElementById('fakeToSender').value.split('|');
+			var str = escape(kols[kols.length-1]);
+			req1.open("GET", 'searchSuggest.php?search=' + str, true);
+			req1.onreadystatechange = handleSearchSuggest; 
+			req1.send(null);
 		}		
 	}
 	//Called when the AJAX response is returned.
 	function handleSearchSuggest() {
-		if (searchReq.readyState == 4) {
+		if (req1.readyState == 4) {
 			var ss = document.getElementById('search_suggest')
 			ss.innerHTML = '';
-			var str = searchReq.responseText.split("\n");
+			var str = req1.responseText.split("\n");
 			for(i=0; i < str.length - 1; i++) {
 				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
 				suggest += 'onmouseout="javascript:suggestOut(this);" ';
-				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTo(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTos(\'' + str[i].split('$')[0]+ '\');" ';
 				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
 				ss.innerHTML += suggest;
 				//ss.innerHTML += str[i].split('$')[1];
 			}
 		}
 	}
-	function addTo(value)
+	function addTos(value)
 	{
 		document.getElementById('realToSender').value += value+"|";
 	}
@@ -596,57 +592,39 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		document.getElementById('fakeToSender').value = tmp+value+"|";
 		document.getElementById('search_suggest').innerHTML = '';
 	}
-	//RECIEVER
-		//Gets the browser specific XmlHttpRequest Object
-	function getXmlHttpRequestObject() {
-		if (window.XMLHttpRequest) {
-			return new XMLHttpRequest();
-		} else if(window.ActiveXObject) {
-			return new ActiveXObject("Microsoft.XMLHTTP");
-		} else {
-			alert("Your Browser Sucks!\nIt's about time to upgrade don't you think?");
-		}
-	}
+	//RECIEVER--------------------------------------------------------------------------------
 	//Our XmlHttpRequest object to get the auto suggest
-	var searchReq = getXmlHttpRequestObject();
+	var req2 = getXmlHttpRequestObject();
 	//Called from keyup on the search textbox.
 	//Starts the AJAX request.
-	function searchSuggest() {
-		if (searchReq.readyState == 4 || searchReq.readyState == 0) {
-			var kol=document.getElementById('fakeToReciever').value.split('|');
-			var str = escape(kol[kol.length-1]);
-			searchReq.open("GET", 'searchSuggest.php?search=' + str, true);
-			searchReq.onreadystatechange = handleSearchSuggest; 
-			searchReq.send(null);
+	function searchSuggestR() {
+		if (req2.readyState == 4 || req2.readyState == 0) {
+			var kolr=document.getElementById('fakeToReciever').value.split('|');
+			var str = escape(kolr[kolr.length-1]);
+			req2.open("GET", 'searchSuggest.php?search=' + str, true);
+			req2.onreadystatechange = handleSearchSuggest; 
+			req2.send(null);
 		}		
 	}
 	//Called when the AJAX response is returned.
 	function handleSearchSuggest() {
-		if (searchReq.readyState == 4) {
+		if (req2.readyState == 4) {
 			var ss = document.getElementById('search_suggest')
 			ss.innerHTML = '';
-			var str = searchReq.responseText.split("\n");
+			var str = req2.responseText.split("\n");
 			for(i=0; i < str.length - 1; i++) {
 				var suggest = '<div style="text-align:right" onmouseover="javascript:suggestOver(this);" ';
 				suggest += 'onmouseout="javascript:suggestOut(this);" ';
-				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTo(\'' + str[i].split('$')[0]+ '\');" ';
+				suggest += 'onclick="javascript:setSearch(this.innerHTML);addTor(\'' + str[i].split('$')[0]+ '\');" ';
 				suggest += 'class="suggest_link">' + str[i].split('$')[1] + '</div>';
 				ss.innerHTML += suggest;
 				//ss.innerHTML += str[i].split('$')[1];
 			}
 		}
 	}
-	function addTo(value)
+	function addTor(value)
 	{
 		document.getElementById('realToReciever').value += value+"|";
-	}
-	//Mouse over function
-	function suggestOver(div_value) {
-		div_value.className = 'suggest_link_over';
-	}
-	//Mouse out function
-	function suggestOut(div_value) {
-		div_value.className = 'suggest_link';
 	}
 	//Click function
 	function setSearch(value) {

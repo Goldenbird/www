@@ -313,7 +313,7 @@ Author: KeenThemes
 					<ul class="page-breadcrumb breadcrumb">
 						<li class="btn-group">
 							<button type="button" class="btn blue">
-							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جو مدرک</a><i class="fa fa-search"></i>
+							<a href="docSearch.php" style="text-decoration:none;color:white;"> جست و جوی مدرک</a><i class="fa fa-search"></i>
 							</button>
 						</li>
 						<li>
@@ -322,7 +322,7 @@ Author: KeenThemes
 							<i class="fa fa-angle-left"></i> 
 						</li>
 						<li>
-							<i class="fa fa-home"></i>
+							<i class="fa fa-envelope"></i>
 							<a href="#">کارتابل</a>
 						</li>
 					</ul>
