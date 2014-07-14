@@ -171,28 +171,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
-				<li>
-					<a href="evalPanel.php">
-					<i class="fa fa-bar-chart-o"></i> 
-					<span class="title">ارزشیابی</span>
-					</a>
-					<!--<ul class="sub-menu">
-						<li>
-						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
-						</li>
-						<li>
-						<a href="evaluation_charts.php"><span class="title">گزارش ها</span></a>
-						<ul class="sub-menu">
-							<li>
-								<a href=""><span class="title">ارزیابی از طریق سیستم</span></a>
-							</li>
-							<li>
-								<a href=""><span class="title">کارنامه ارزشیابی</span></a>
-							</li>
-						</ul>
-						</li>
-					</ul>-->
-				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	
@@ -228,6 +206,28 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
+				</li>
+				<li>
+					<a href="evalPanel.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">ارزشیابی</span>
+					</a>
+					<!--<ul class="sub-menu">
+						<li>
+						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
+						</li>
+						<li>
+						<a href="evaluation_charts.php"><span class="title">گزارش ها</span></a>
+						<ul class="sub-menu">
+							<li>
+								<a href=""><span class="title">ارزیابی از طریق سیستم</span></a>
+							</li>
+							<li>
+								<a href=""><span class="title">کارنامه ارزشیابی</span></a>
+							</li>
+						</ul>
+						</li>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
