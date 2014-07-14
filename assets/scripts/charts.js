@@ -34,7 +34,7 @@ var Charts = function () {
                     },
                     bars:{
                         horizontal:true,
-                        barWidth:6
+                        barWidth:0.5
                     },
                     grid:{
                         backgroundColor: { colors: ["#fafafa", "#4b8df8"] }

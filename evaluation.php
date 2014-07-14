@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
@@ -7,12 +7,10 @@ if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
-
 ?>
-
-<?php
-$startDate=$_POST['start'];
-$endDate=$_POST['end'];
+<?
+$startDate=$_POST['startd'];
+$endDate=$_POST['endd'];
 $users = mysql_query("select * from users");
 $now=strtotime(date("Y-m-d H:i:s")."");
 $countUser = mysql_num_rows($users);
@@ -26,21 +24,34 @@ $grade = array();
 //calculate RP
 for($i=0; $i<$countUser; $i++)
 {	
+	echo '</br>';
 	//each normal user
 	$user = mysql_fetch_array($users);
 	//unread letters
-	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
+	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));// 
+//	echo 'unread'.$unread_num ;
+//	echo '</br>';
 	//tedad forward
-	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND parent <> 'NULL' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
+	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND parent <> 'NULL' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));//AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'
+//	echo 'forward:'.$countForward;
+//	echo '</br>';
 	//tedad hamesh
-	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh INNER JOIN letterhamesh ON hamesh.id=letterhamesh.hameshID INNER JOIN letters ON letterhamesh.letterID = letters.id where letters.senderID='".$user['id']."' AND letters.sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
+	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh INNER JOIN letterhamesh ON hamesh.id=letterhamesh.hameshID INNER JOIN letters ON letterhamesh.letterID = letters.id where letters.senderID='".$user['id']."' AND letters.sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));// 
+//	echo 'hamesh:'.$countHamesh;
+//	echo '</br>';
 	//tedad error ha
 	$countError = $user['errorNum'];
+//	echo 'error:'.$countError;
+//	echo '</br>';
 	//tedad kole nameha
-	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
-	$totalWorkDone[$i]=$countHamesh+$countForward;
-	$totalWork=$countLetter;
+	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$user['id']."' AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));// 
 	
+	$totalWorkDone[$i]=$countHamesh+$countForward;
+//	echo'totalWorkDone:'.$totalWorkDone[$i];
+//	echo '</br>';
+	$totalWork=$countLetter;
+//	echo 'total work:'.$totalWork;
+//	echo '</br>';
 	//محاسبه عملکرد واقعی
 	if($totalWork == 0)
 	{
@@ -49,12 +60,14 @@ for($i=0; $i<$countUser; $i++)
 	else
 	{
 		$RP = $totalWorkDone[$i]/$totalWork;
+//		echo 'RP:'.$RP;
+//		echo '</br>';
 	}
 	//calculate NP
 	$total = 0;
 	for($j=0; $j<$unread_num; $j++)
 	{
-		$data=mysql_fetch_array(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));
+		$data=mysql_fetch_array(mysql_query("select * from letters where recieverID='".$user['id']."' AND recievedDate IS NULL AND sentDate BETWEEN '".$startDate."' AND '".$endDate."'"));//
 		$age=$now-strtotime($data['sentDate']);
 		$deadline=72;
 		if($data['priority']=="1")
@@ -67,6 +80,8 @@ for($i=0; $i<$countUser; $i++)
 		if($remainder <= 0)
 			$total += 1;
 	}
+//	echo 'delay:'.$total;
+//	echo '</br>';
 	if($totalWorkDone[$i]==0)
 	{
 
@@ -74,25 +89,30 @@ for($i=0; $i<$countUser; $i++)
 	else
 	{
 		$NP = ($total+$countError)/$totalWorkDone[$i];
+	//	echo 'NP:'.$NP;
+	//	echo '</br>';
 
 	}
 		
 	//calculate EP
 	$EP = $RP*(1-$NP);
-
+//	echo $EP;
+//	echo '</br>';
 	//calculate WTI : karkarde user dar system
-	$userLog = mysql_query("select * from login where userID='".$user['id']."' AND login BETWEEN '".$startDate."' AND '".$endDate."' AND logout BETWEEN '".$startDate."' AND '".$endDate."'");
+	$userLog = mysql_query("select * from login where userID='".$user['id']."' AND login BETWEEN '".$startDate."' AND '".$endDate."' AND logout BETWEEN '".$startDate."' AND '".$endDate."'");// 
 	$countLog = mysql_num_rows($userLog);
 
 	$WTI[$i] = 0;
 	for($k=0; $k<$countLog; $k++)
 	{	
 		$log = mysql_fetch_array($userLog);
-		$WTI[$i] += ($log['logout']-$log['login']);
+		$WTI[$i] += (strtotime($log['logout'])-($log['login']));
 	}
-
-
+//	echo 'WTI:'.$WTI[$i];
+//	echo '</br>';
 	$grade[$i] = $EP*$WTI[$i];
+//	echo 'grade:'.$grade[$i];
+//	echo '</br>';
 
 }
 ?>
@@ -230,29 +250,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
-				<li class="start active">
-					<a href="evalPanel.php">
-					<i class="fa fa-bar-chart-o"></i> 
-					<span class="title">ارزشیابی</span>
-					<span class="selected"></span>
-					</a>
-					<!--<ul class="sub-menu">
-						<li>
-						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
-						</li>
-						<li>
-						<a href="evaluation_charts.php"><span class="title">گزارش ها</span></a>
-						<ul class="sub-menu">
-							<li>
-								<a href=""><span class="title">ارزیابی از طریق سیستم</span></a>
-							</li>
-							<li>
-								<a href=""><span class="title">کارنامه ارزشیابی</span></a>
-							</li>
-						</ul>
-						</li>
-					</ul>-->
-				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	
@@ -289,6 +286,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
+				<li class="start active">
+					<a href="evalPanel.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">ارزشیابی</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	

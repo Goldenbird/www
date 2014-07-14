@@ -150,29 +150,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
-				<li class="start active">
-					<a href="evalPanel.php">
-					<i class="fa fa-bar-chart-o"></i> 
-					<span class="title">ارزشیابی</span>
-					<span class="selected"></span>
-					</a>
-					<!--<ul class="sub-menu">
-						<li>
-						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
-						</li>
-						<li>
-						<a href="evaluation_charts.php"><span class="title">گزارش ها</span></a>
-						<ul class="sub-menu">
-							<li>
-								<a href=""><span class="title">ارزیابی از طریق سیستم</span></a>
-							</li>
-							<li>
-								<a href=""><span class="title">کارنامه ارزشیابی</span></a>
-							</li>
-						</ul>
-						</li>
-					</ul>-->
-				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	
@@ -209,6 +186,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
+				<li class="start active">
+					<a href="evalPanel.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">ارزشیابی</span>
+					<span class="selected"></span>
+					</a>
+				</li>
+
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	
@@ -325,7 +310,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group" id="divStartEval" >
 												<label class="control-label col-md-3">از تاریخ: </label>
 												<div class="col-md-9">
-													<input id="start" name="start" type="text" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
+													<input id="startd" name="startd" type="text" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
 												</div>
 											</div>
 										</div>
@@ -334,7 +319,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 											<div class="form-group" id="divEndEval">
 												<label class="control-label col-md-3">تا تاریخ: </label>
 												<div class="col-md-9">
-													<input id="end" name="end" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
+													<input id="endd" name="endd" class="form-control" placeholder="Y-m-d Hr:Min:Sec">
 												</div>
 											</div>
 										</div>
@@ -435,8 +420,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 
 		function checkForm()
 		{
-			var start = document.getElementById('start');
-			var end = document.getElementById('end');
+			var start = document.getElementById('startd');
+			var end = document.getElementById('endd');
 			if(start.value == "")
 				alert("تاریخ شروع نمی تواند خالی باشد.");
 			else if(end.value == "")

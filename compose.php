@@ -43,6 +43,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="assets/plugins/jquery-easy-pie-chart/jquery.easy-pie-chart.css" rel="stylesheet" type="text/css"/>
 	<!-- END PAGE LEVEL PLUGIN STYLES -->
 	<!-- BEGIN THEME STYLES --> 
+		<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal-bs3patch.css" rel="stylesheet" type="text/css"/>
+	<link href="assets/plugins/bootstrap-modal/css/bootstrap-modal.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/style-metronic-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/style-rtl.css" rel="stylesheet" type="text/css"/>
 	<link href="assets/css/style-responsive-rtl.css" rel="stylesheet" type="text/css"/>
@@ -53,9 +55,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
 	<style type="text/css" media="screen">
-		body {
-			font: 11px arial;
-		}
 		.suggest_link {
 			background-color: #FFFFFF;
 			padding: 2px 6px 2px 6px;
@@ -327,14 +326,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- START PAGE CONTENT-->
 	<div style="display: block; position: absolute; top:20%; left:20%" >
 	<!-- full width -->
-			<div id="full-width" class="modal container fade" tabindex="-1" style="position: relative; top:20%; left:65%">
+	<!--		<div id="full-width" class="modal container fade" tabindex="-1" style="position: relative; top:20%; left:65%">
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
 					<h4 class="modal-title"><strong>لیست هامش ها</strong></h4>
 				</div>
 				<div class="modal-body">
 					<?php
-						$myq="SELECT * FROM hamesh where senderID='".$_SESSION['username']."'";
+	/*					$myq="SELECT * FROM hamesh where senderID='".$_SESSION['username']."'";
 						$hamesh=mysql_query($myq);
 						$mnr=mysql_num_rows($hamesh);
 						
@@ -350,17 +349,25 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							<td class="view-message">'.$hameshList['content'].'</td>
 							</tr>
 							</br>'
-							);		
+							);		*
 						}
-					
+					*/
 					?>
 				</div>
 				<div class="modal-footer">
 					<button type="button" data-dismiss="modal" class="btn btn-default">لغو</button>
 					<button type="button" class="btn blue" name="hameshCompose" onclick=hameshListForward() data-dismiss="modal" >ارجاع هامش</button>
 				</div>
-			</div>
-		</div>
+				<script>
+					temp = $('#checkbox').val();
+					$('#checkbox').onclick(function(){
+						$.POST('hamesh-compose.php',{action:temp},{function(data{$('#context').html(data);})
+						}
+						);
+					});
+				</script>
+			</div>-->
+			</div>	
 		<?php
 					if(isset($_GET['error']) and $_GET['error']=='WrongTo')
 						echo " گیرنده با این نام یافت نشد<br>";
@@ -371,7 +378,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				<button class="btn" type="button" onclick="delCompose()">حذف</button>
 				<!--<form id="draft" action="draft.php?action=draft" method="POST" >-->
 				<button class="btn" type="button" onclick="saveDraft()">پیش نویس</button><!--</form>-->
-				<button class="btn" type="button" data-target="#full-width" data-toggle="modal">لیست هامشها</button>
+			<!--	<button class="btn" type="button" data-target="#full-width" data-toggle="modal">لیست هامشها</button> -->
 			</div>
 			<div class="inbox-form-group mail-to">
 				<label class="control-label">به:</label>

@@ -208,7 +208,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<span class="title">نمایش سمت ها</span>
 					<span class="selected"></span>
 					</a>
+				</li>	
+				<li>
+					<a href="evalPanel.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">ارزشیابی</span>
+					</a>
 				</li>
+
 				<?php
 					 if($_SESSION['type']!= "admin")
 					{	
