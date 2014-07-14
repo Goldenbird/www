@@ -176,37 +176,33 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					<a href="index.php">
 					<i class="fa fa-home"></i> 
 					<span class="title">داشبورد</span>
+					<span class="selected"></span>
 					</a>
 				</li>
 				<li>
 					<a href="compose.php">
-					<i class="fa-envelope-o"></i> 
+					<i class="fa fa-pencil"></i> 
 					<span class="title">ایجاد نامه</span>
 					</a>
 				</li>
 				<li>
+					<a href="inbox.php">
+					<i class="fa fa-envelope"></i> 
+					<span class="title">کارتابل</span>
+					</a>
+				</li>
+				<li>
 					<a href="createGroup.php">
-					<i class="fa fa-cogs"></i> 
+					<i class="fa fa-group"></i> 
 					<span class="title">ایجاد گروه</span>
 					</a>
 				</li>
 				<li>
-					<a href="inbox.php">
-					<i class="fa fa-cogs"></i> 
-					<span class="title">کارتابل</span>
-					</a>
-				</li>
-				<li class="last open">
-					<a href="evaluation.php">
-					<i class="fa fa-bar-chart-o"></i> 
-					<span class="title">ارزیابی</span>
-					</a>
-					<li class="last open">
-					<a href="evaluation.php">
+					<a href="evalPanel.php">
 					<i class="fa fa-bar-chart-o"></i> 
 					<span class="title">ارزشیابی</span>
 					</a>
-					<ul class="sub-menu">
+					<!--<ul class="sub-menu">
 						<li>
 						<a href="evaluation_form.php"><span class="title">اطلاعات پایه</span></a>
 						</li>
@@ -221,7 +217,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 							</li>
 						</ul>
 						</li>
-					</ul>
+					</ul>-->
 				</li>
 				<?php
 					 if($_SESSION['type']!= "admin")
@@ -229,35 +225,33 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 						echo "<!--" ;
 					}
 				?>
-				<li class="start active">
+				<li class="last ">
 					<a href="createUser.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد کاربر</span>
-					<span class="selected"></span>
-					<span class="arrow"></span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="createOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-plus"></i> 
 					<span class="title">ایجاد سمت</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showUsers.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-picture-o"></i> 
 					<span class="title">نمایش کاربران</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showDepartments.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-wrench"></i> 
 					<span class="title">نمایش بخش ها</span>
 					</a>
 				</li>
 				<li class="last ">
 					<a href="showOccupation.php">
-					<i class="fa fa-bar-chart-o"></i> 
+					<i class="fa fa-sitemap"></i> 
 					<span class="title">نمایش سمت ها</span>
 					</a>
 				</li>
@@ -268,8 +262,14 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 					}
 				?>
 				<li>
+					<a href="myEval.php">
+					<i class="fa fa-bar-chart-o"></i> 
+					<span class="title">کارنامه ی ارزشیابی من</span>
+					</a>
+				</li>
+				<li>
 					<a href="userEdit.php">
-					<i class="fa fa-gift"></i> 
+					<i class="fa fa-user"></i> 
 					<span class="title">مشخصات کاربری</span>
 					</a>
 				</li>
