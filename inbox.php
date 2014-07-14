@@ -20,7 +20,7 @@ Author: KeenThemes
 <html class="no-js" lang="en"><!--<![endif]--><!-- BEGIN HEAD -->
 <head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-	<title>سیستم اتوماسیون اداری | Admin Dashboard </title>
+	<title>سیستم اتوماسیون اداری | کارتابل</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport">
 	<meta content="" name="description">
@@ -331,7 +331,7 @@ Author: KeenThemes
 				<div class="col-md-2">
 					<ul class="inbox-nav margin-bottom-10">
 						<li class="inbox">
-							<a href="javascript:;" class="btn" data-title="نامه وارده">نامه وارده (3)</a>
+							<a href="javascript:;" class="btn" data-title="نامه وارده">نامه وارده</a>
 							<b></b>
 						</li>
 						<li class="sent"><a id="koofte" class="btn" href="javascript:;" data-title="نامه ارسالی">نامه ارسالی</a><b></b></li>
