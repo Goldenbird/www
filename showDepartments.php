@@ -50,11 +50,6 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="assets/css/custom-rtl.css" rel="stylesheet" type="text/css"/>
 	<!-- END THEME STYLES -->
 	<link rel="shortcut icon" href="favicon.ico" />
-	<style>
-		.golabi{
-			cursor:pointer;
-		}
-	</style>
 </head>
 <!-- END HEAD -->
 <!-- BEGIN BODY -->
@@ -312,7 +307,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 				$department=mysql_fetch_array($departments);
 				echo
 				(
-					'<tr class="golabi" onclick="viewDep('.$department['id'].')">
+					'<tr>
 						<td class="inbox-small-cells">
 							<input type="checkbox" class="mail-checkbox">
 						</td>

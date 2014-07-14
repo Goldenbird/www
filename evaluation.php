@@ -7,8 +7,7 @@ if(isset($_SESSION['username']) == false)
 	header("Location: page_login.php");
 else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
-?>
-<?
+
 $startDate=$_POST['startd'];
 $endDate=$_POST['endd'];
 $users = mysql_query("select * from users");
@@ -24,7 +23,7 @@ $grade = array();
 //calculate RP
 for($i=0; $i<$countUser; $i++)
 {	
-	echo '</br>';
+//	echo '</br>';
 	//each normal user
 	$user = mysql_fetch_array($users);
 	//unread letters
@@ -89,8 +88,8 @@ for($i=0; $i<$countUser; $i++)
 	else
 	{
 		$NP = ($total+$countError)/$totalWorkDone[$i];
-	//	echo 'NP:'.$NP;
-	//	echo '</br>';
+//		echo 'NP:'.$NP;
+//		echo '</br>';
 
 	}
 		
@@ -106,7 +105,7 @@ for($i=0; $i<$countUser; $i++)
 	for($k=0; $k<$countLog; $k++)
 	{	
 		$log = mysql_fetch_array($userLog);
-		$WTI[$i] += (strtotime($log['logout'])-($log['login']));
+		$WTI[$i] += (((strtotime($log['logout'])-($log['login']))%86400)/3600);
 	}
 //	echo 'WTI:'.$WTI[$i];
 //	echo '</br>';
@@ -410,6 +409,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 		</div>
 		<!-- END PAGE --> 
 	</div>
+</div>
 	<!-- END CONTAINER -->
 	<!-- BEGIN FOOTER -->
 	<div class="footer">
@@ -468,4 +468,3 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<!-- END PAGE LEVEL SCRIPTS -->
 </body>
 <!-- END BODY -->
-</html>

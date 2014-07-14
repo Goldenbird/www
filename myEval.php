@@ -1,16 +1,13 @@
-<?php 
+﻿<?php 
 error_reporting(E_ALL ^ E_DEPRECATED);
 session_name("oa");
 session_start();
 include 'db_connect.php';
-//if(isset($_SESSION['username']) == false) 
-//	header("Location: page_login.php");
-//else
+if(isset($_SESSION['username']) == false) 
+	header("Location: page_login.php");
+else
 	$bye=mysql_query("UPDATE login SET logout='".date("Y-m-d H:i:s")."' WHERE userID='".$_SESSION['username']."' AND login='".$_SESSION['loginTime']."'");
 
-?>
-
-<?php
 $me = mysql_query("select * from users where id = '".$_SESSION['username']."'");
 $now=strtotime(date("Y-m-d H:i:s")."");
 //$countUser = mysql_num_rows($users);
@@ -27,16 +24,27 @@ $m = 1;
 	$user = mysql_fetch_array($me);
 	//unread letters
 	$unread_num=mysql_num_rows(mysql_query("select * from letters where recieverID='".$_SESSION['username']."' AND recievedDate IS NULL"));
+//	echo 'unread:'.$unread_num;
+//	echo '</br>';
 	//tedad forward
 	$countForward = mysql_num_rows(mysql_query("select * from letters where senderID='".$_SESSION['username']."' AND parent <> 'NULL' "));
+//	echo 'forward:'.$countForward;
+//	echo '</br>';
 	//tedad hamesh
 	$countHamesh = mysql_num_rows(mysql_query("select * from hamesh where senderID='".$_SESSION['username']."'"));
+//	echo 'hamesh:'.$countHamesh;
+//	echo '</br>';
 	//tedad error ha
 	$countError = $me['errorNum'];
+//	echo 'error:'.$countError;
+//	echo '</br>';
 	//tedad kole nameha
 	$countLetter =  mysql_num_rows(mysql_query("select * from letters where senderID='".$_SESSION['username']."'"));
 	$totalWorkDone=$countHamesh+$countForward;
+	//echo 'total work done:'.$totalWorkDone;
+	//echo '</br>';
 	$totalWork=$countLetter;
+//	echo 'total work:'.$totalWork;
 	
 	//محاسبه عملکرد واقعی
 	if($totalWork == 0)
@@ -46,6 +54,8 @@ $m = 1;
 	else
 	{
 		$RP = $totalWorkDone/$totalWork;
+		//echo 'RP:'.$RP;
+		//echo '</br>';
 	}
 	//calculate NP
 	$total = 0;
@@ -64,6 +74,8 @@ $m = 1;
 		if($remainder <= 0)
 			$total += 1;
 	}
+//	echo 'delay:'.$total;
+//	echo '</br>';
 	if($totalWorkDone==0)
 	{
 
@@ -71,11 +83,15 @@ $m = 1;
 	else
 	{
 		$NP = ($total+$countError)/$totalWorkDone;
+//		echo 'NP:'.$NP;
+//		echo '</br>';
 
 	}
 		
 	//calculate EP
 	$EP = $RP*(1-$NP);
+//	echo 'EP:'.$EP;
+//	echo '</br>';
 
 	//calculate WTI : karkarde user dar system
 	$userLog = mysql_query("select * from login where userID='".$_SESSION['username']."'");
@@ -85,11 +101,13 @@ $m = 1;
 	for($k=0; $k<$countLog; $k++)
 	{	
 		$log = mysql_fetch_array($userLog);
-		$WTI += ($log['logout']-$log['login']);
+		$WTI += (((strtotime($log['logout'])-strtotime($log['login']))%86400)/3600);
 	}
-
-
+//	echo 'WTI:'.$WTI;
+//	echo '</br>';
 	$grade = $EP*$WTI;
+//	echo 'grade:'.$grade;
+//	echo '</br>';
 ?>
 <!DOCTYPE html>
 <!-- 
@@ -105,7 +123,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 <!-- BEGIN HEAD -->
 <head>
 	<meta charset="utf-8" />
-	<title>Metronic | Visual Charts</title>
+	<title>سیستم اتوماسیون اداری | کارنامه ی ارزشیابی من</title>
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta content="width=device-width, initial-scale=1.0" name="viewport" />
 	<meta content="" name="description" />
@@ -420,6 +438,8 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<script src="assets/plugins/flot/jquery.flot.pie.js"></script>
 	<script src="assets/plugins/flot/jquery.flot.stack.js"></script>
 	<script src="assets/plugins/flot/jquery.flot.crosshair.js"></script>
+	<script src="assets/scripts/myplugins.js" type="text/javascript"></script>	
+
 	<!-- END PAGE LEVEL PLUGINS -->
 	<!-- BEGIN PAGE LEVEL SCRIPTS -->
 	<script src="assets/scripts/app.js"></script>
