@@ -34,6 +34,7 @@ Purchase: http://themeforest.net/item/metronic-responsive-admin-dashboard-templa
 	<link href="assets/plugins/uniform/css/uniform.default.css" rel="stylesheet" type="text/css"/>
 	<!-- END GLOBAL MANDATORY STYLES -->
 	<!-- BEGIN PAGE LEVEL STYLES -->
+	<!-- alooo -->
 	<link href="assets/plugins/bootstrap-wysihtml5/bootstrap-wysihtml5-rtl.css" rel="stylesheet" type="text/css" />
 	<link href="assets/plugins/fancybox/source/jquery.fancybox.css" rel="stylesheet" />
 	<!-- BEGIN:File Upload Plugin CSS files-->
